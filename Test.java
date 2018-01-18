@@ -1,23 +1,18 @@
 package modelisation;
 
-import java.util.Arrays;
-
-class Test
-{
-   final static String erreurInterest = "la fonction interest a un problème";
-   
+class Test {
+	
    static boolean visite[];
-   public static void dfs(Graph g, int u)
-	 {
+   
+   public static void dfs(Graph g, int u) {
 		visite[u] = true;
 		System.out.println("Je visite " + u);
 		for (Edge e: g.next(u))
 		  if (!visite[e.to])
 			dfs(g,e.to);
-	 }
+   }
 
-   public static void testHeap()
-	 {
+   public static void testHeap() {
 		// Crée ue file de priorité contenant les entiers de 0 à 9, tous avec priorité +infty
 		Heap h = new Heap(10);
 		h.decreaseKey(3,1664);
@@ -36,10 +31,9 @@ class Test
 		x=  h.pop();
 		System.out.println("On a enlevé "+x+" de la file, dont la priorité était " + h.priority(x));
 		// La file contient maintenant uniquement les éléments 0,1,5,6,7,8,9 avec priorité +infini
-	 }
+   }
    
-   public static void testGraph()
-	 {
+   public static void testGraph() {
 		int n = 5;
 		int i,j;
 		Graph g = new Graph(n*n+2);
@@ -59,7 +53,7 @@ class Test
 		// dfs à partir du sommet 3
 		visite = new boolean[n*n+2];
 		dfs(g, 3);
-	 }
+   }
    
    public static void testInterest() {
 	   int image[][] = { {3, 11, 24, 39},
