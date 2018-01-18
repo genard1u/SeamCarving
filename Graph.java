@@ -1,4 +1,5 @@
 package modelisation;
+
 import java.util.ArrayList;
 import java.io.*;
 
@@ -49,24 +50,30 @@ public class Graph {
 	   return n;
    }      
    
-   public Iterable<Edge> edges()
-	 {
+   public Iterable<Edge> edges() {
 		ArrayList<Edge> list = new ArrayList<Edge>();
-        for (int v = 0; v < V; v++)
+		
+        for (int v = 0; v < V; v++) {
             for (Edge e : adj(v)) {
-                if (e.to != v)
+                if (e.to != v) {
                     list.add(e);
+                }
             }
+        }
+        
         return list;
     }
-   
    
    public void writeFile(String s) {
 	   try {			 
 			 PrintWriter writer = new PrintWriter(s, "UTF-8");
+			 
 			 writer.println("digraph G{");
-			 for (Edge e: edges())
+			 
+			 for (Edge e: edges()) {
 			   writer.println(e.from + "->" + e.to + "[label=\"" + e.cost + "\"];");
+			 }
+			 
 			 writer.println("}");
 			 writer.close();
 	   }

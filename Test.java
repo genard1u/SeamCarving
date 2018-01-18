@@ -1,8 +1,9 @@
 package modelisation;
 
-class Test {
+public class Test {
 	
    static boolean visite[];
+   
    
    public static void dfs(Graph g, int u) {
 		visite[u] = true;
@@ -41,21 +42,21 @@ class Test {
 		int i,j;
 		Graph g = new Graph(n * n + 2);
 		
-		for (i = 0; i < n-1; i++)
+		for (i = 0; i < n - 1; i++)
 		  for (j = 0; j < n ; j++)
-			g.addEdge(new Edge(n*i+j, n*(i+1)+j, 1664 - (i+j)));
+			g.addEdge(new Edge(n * i + j, n * (i + 1) + j, 1664 - (i + j)));
 
 		for (j = 0; j < n ; j++)		  
-		  g.addEdge(new Edge(n*(n-1)+j, n*n, 666));
+		  g.addEdge(new Edge(n * (n - 1) + j, n * n, 666));
 		
 		for (j = 0; j < n ; j++)					
-		  g.addEdge(new Edge(n*n+1, j, 0));
+		  g.addEdge(new Edge(n * n + 1, j, 0));
 		
-		g.addEdge(new Edge(13,17,1337));
+		g.addEdge(new Edge(13, 17, 1337));
 		g.writeFile("test.dot");
 		
 		// dfs à partir du sommet 3
-		visite = new boolean[n*n+2];
+		visite = new boolean[n * n + 2];
 		dfs(g, 3);
    }
    
@@ -98,11 +99,12 @@ class Test {
    }
    
    public static void testTograph() {
-	   int interet[][] = { {8, 2, 1, 15}, 
-                           {13, 3, 1, 10},
-                           {140, 52, 5, 25}
-                         };
+	   int image[][] = { {3, 11, 24, 39},
+	                     {8, 21, 29, 39},
+	                     {200, 60, 25, 0}
+	                   };
 	   
+	   int[][] interet = SeamCarving.interest(image);
 	   Graph g = SeamCarving.tograph(interet);
 	   
 	   g.writeFile("test.dot");
