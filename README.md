@@ -1,2 +1,2 @@
-# SeamCarving
+#SeamCarving
 Clément Bellanger, Pierre Génard
