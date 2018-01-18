@@ -7,9 +7,12 @@ class Test {
    public static void dfs(Graph g, int u) {
 		visite[u] = true;
 		System.out.println("Je visite " + u);
-		for (Edge e: g.next(u))
-		  if (!visite[e.to])
-			dfs(g,e.to);
+		
+		for (Edge e: g.next(u)) {
+		    if (!visite[e.to]) {
+			    dfs(g,e.to);
+		    }
+		}
    }
 
    public static void testHeap() {
@@ -36,7 +39,7 @@ class Test {
    public static void testGraph() {
 		int n = 5;
 		int i,j;
-		Graph g = new Graph(n*n+2);
+		Graph g = new Graph(n * n + 2);
 		
 		for (i = 0; i < n-1; i++)
 		  for (j = 0; j < n ; j++)
@@ -50,6 +53,7 @@ class Test {
 		
 		g.addEdge(new Edge(13,17,1337));
 		g.writeFile("test.dot");
+		
 		// dfs à partir du sommet 3
 		visite = new boolean[n*n+2];
 		dfs(g, 3);
@@ -73,6 +77,7 @@ class Test {
    
    public static void testWritePgm() {
 	   int[][] image=SeamCarving.readpgm("modelisation/images/ex1.pgm");
+	   
 	   SeamCarving.writepgm(image,"ex1-m.pgm");
    }
    
@@ -92,11 +97,23 @@ class Test {
 	   }	  
    }
    
+   public static void testTograph() {
+	   int interet[][] = { {8, 2, 1, 15}, 
+                           {13, 3, 1, 10},
+                           {140, 52, 5, 25}
+                         };
+	   
+	   Graph g = SeamCarving.tograph(interet);
+	   
+	   g.writeFile("test.dot");
+   }
+   
    public static void main(String[] args) {
 		testHeap();
 		testGraph();
-		testInterest();
 		testWritePgm();
+		testInterest();
+		testTograph();
    }
 
 }

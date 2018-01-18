@@ -2,48 +2,52 @@ package modelisation;
 import java.util.ArrayList;
 import java.io.*;
 
-public class Graph
-{
-   private ArrayList<Edge>[] adj;
-   private final int V;
-   int E;
-@SuppressWarnings("unchecked")
-   public Graph(int N)
-	 {
-		this.V = N;
-		this.E = 0;
-		 adj = (ArrayList<Edge>[]) new ArrayList[N];
-		for (int v= 0; v < N; v++)
-		  adj[v] = new ArrayList<Edge>();
-		
-	 }
-
-   public int vertices()
-	 {
-		return V;
-	 }
+public class Graph {
+	
+   private ArrayList<Edge>[] adj; /* tableau d'ArrayList de Edge */  
+   private final int V; /* nombre de sommets */
+   int E; /* nombre d'arêtes */
    
-   public void addEdge(Edge e)
-	 {
+   
+   @SuppressWarnings("unchecked")
+   public Graph(int N) {
+	   this.V = N;
+	   this.E = 0;
+	   
+	   /* tableau d'ArrayList de Edge */
+	   adj = (ArrayList<Edge>[]) new ArrayList[N];
+	   
+	   for (int v = 0; v < N; v++) {
+		   adj[v] = new ArrayList<Edge>();
+	   }
+   }
+
+   public int vertices() {
+	   return V;
+   }
+   
+   public void addEdge(Edge e) {
 		int v = e.from;
 		int w = e.to;
+		
 		adj[v].add(e);
 		adj[w].add(e);
-	 }
+   }
    
-   public Iterable<Edge> adj(int v)
-	 {
-		return adj[v];
-	 }      
+   public Iterable<Edge> adj(int v) {
+       return adj[v];
+   }      
 
-   public Iterable<Edge> next(int v)
-	 {
-		ArrayList<Edge> n = new ArrayList<Edge>();
-		for (Edge e: adj(v))
+   public Iterable<Edge> next(int v) {
+	   ArrayList<Edge> n = new ArrayList<Edge>();
+		
+	   for (Edge e: adj(v)) {
 		  if (e.to != v)
 			n.add(e);
-		return n;
-	 }      
+	   }
+	   
+	   return n;
+   }      
    
    public Iterable<Edge> edges()
 	 {
@@ -57,20 +61,19 @@ public class Graph
     }
    
    
-   public void writeFile(String s)
-	 {
-		try
-		  {			 
+   public void writeFile(String s) {
+	   try {			 
 			 PrintWriter writer = new PrintWriter(s, "UTF-8");
 			 writer.println("digraph G{");
 			 for (Edge e: edges())
 			   writer.println(e.from + "->" + e.to + "[label=\"" + e.cost + "\"];");
 			 writer.println("}");
 			 writer.close();
-		  }
-		catch (IOException e)
-		  {
-		  }						
-	 }
+	   }
+	   catch (IOException e){
+		   System.err.println("impossible d'écrire le fichier");
+		   System.exit(1);
+	   }						
+   }
    
 }
