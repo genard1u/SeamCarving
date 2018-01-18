@@ -1,6 +1,11 @@
 package modelisation;
+
+import java.util.Arrays;
+
 class Test
 {
+   final static String erreurInterest = "la fonction interest a un problème";
+   
    static boolean visite[];
    public static void dfs(Graph g, int u)
 	 {
@@ -56,9 +61,42 @@ class Test
 		dfs(g, 3);
 	 }
    
-   public static void main(String[] args)
-	 {
+   public static void testInterest() {
+	   int image[][] = { {3, 11, 24, 39},
+			             {8, 21, 29, 39},
+			             {200, 60, 25, 0}
+			           };
+	   
+	   int interet[][] = { {8, 2, 1, 15}, 
+			               {13, 3, 1, 10},
+			               {140, 52, 5, 25}
+	                     };
+	   
+	   int retourInterest[][] = SeamCarving.interest(image);
+	   
+	   compare(interet, retourInterest);
+   }
+   
+   public static void compare(int[][] interet, int[][] retourInterest) {
+	   int hauteur = retourInterest.length;  
+	   int largeur = retourInterest[0].length;
+	   int pixels = hauteur * largeur;
+	   
+	   assert hauteur == interet.length;
+	   assert largeur == interet[0].length;
+	   
+	   for (int indice = 0; indice < pixels; indice ++) {
+		   int y = indice / largeur;
+		   int x = indice % largeur;
+		   
+		   assert interet[y][x] == retourInterest[y][x];
+	   }	  
+   }
+   
+   public static void main(String[] args) {
 		testHeap();
 		testGraph();
-	 }
+		testInterest();
+   }
+   
 }
