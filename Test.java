@@ -56,9 +56,15 @@ class Test
 		dfs(g, 3);
 	 }
    
+   public static void testWritePgm() {
+	   int[][] image=SeamCarving.readpgm("modelisation/images/ex1.pgm");
+	   SeamCarving.writepgm(image,"ex1-m.pgm");
+   }
+   
    public static void main(String[] args)
 	 {
-		testHeap();
-		testGraph();
+		//testHeap();
+		//testGraph();
+		testWritePgm();
 	 }
 }
