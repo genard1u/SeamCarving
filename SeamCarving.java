@@ -8,6 +8,9 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
+import modelisation.graphe.Edge;
+import modelisation.graphe.Graph;
+
 public class SeamCarving {
 
     @SuppressWarnings("unused")
@@ -15,7 +18,7 @@ public class SeamCarving {
         try {
             InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fn);
             BufferedReader d = new BufferedReader(new InputStreamReader(f));
-		    String magic = d.readLine();
+			String magic = d.readLine();
             String line = d.readLine();
             
 		    while (line.startsWith("#")) {
@@ -71,14 +74,14 @@ public class SeamCarving {
 		
 		   int ligne = 0;
 		
-		   for (int i=0;i<height;i++) {
-			   for (int j=0;j<width;j++) {
-				   writer.print(image[i][j]+" ");
+		   for (int i = 0; i < height; i++) {
+			   for (int j = 0; j < width; j++) {
+				   writer.print(image[i][j] + " ");
 				   ligne++;
 				   
 				   if (ligne > 25) {
 				       writer.println();
-					   ligne=0;
+					   ligne = 0;
 				   }
 			   }
 		   }

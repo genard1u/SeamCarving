@@ -1,5 +1,8 @@
 package modelisation;
 
+import modelisation.graphe.Edge;
+import modelisation.graphe.Graph;
+
 public class Test {
 	
    static boolean visite[];

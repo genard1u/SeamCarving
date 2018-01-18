@@ -1,7 +1,8 @@
-package modelisation;
+package modelisation.graphe;
 
 import java.util.ArrayList;
 import java.io.*;
+
 
 public class Graph {
 	
