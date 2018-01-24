@@ -1,4 +1,14 @@
 # SeamCarving
+
+## Auteurs
 Clément Bellanger, Pierre Génard
 
-Commande dot: dot -Tsvg test.dot > test.svg
+## Générer l'image d'un graphe
+```bash
+dot -Tsvg test.dot > test.svg
+```
+
+## Feuille de route
+
+- **Première partie** Vendredi 2 Février
+- **Deuxième partie**
