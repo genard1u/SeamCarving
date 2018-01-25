@@ -1,8 +1,12 @@
 package modelisation;
 
-class Test {
+import modelisation.graphe.Edge;
+import modelisation.graphe.Graph;
+
+public class Test {
 	
    static boolean visite[];
+   
    
    public static void dfs(Graph g, int u) {
 		visite[u] = true;
@@ -16,7 +20,7 @@ class Test {
    }
 
    public static void testHeap() {
-		// Crée ue file de priorité contenant les entiers de 0 à 9, tous avec priorité +infty
+		// Crée une file de priorité contenant les entiers de 0 à 9, tous avec priorité +infty
 		Heap h = new Heap(10);
 		h.decreaseKey(3,1664);
 		h.decreaseKey(4,5);
@@ -41,21 +45,21 @@ class Test {
 		int i,j;
 		Graph g = new Graph(n * n + 2);
 		
-		for (i = 0; i < n-1; i++)
+		for (i = 0; i < n - 1; i++)
 		  for (j = 0; j < n ; j++)
-			g.addEdge(new Edge(n*i+j, n*(i+1)+j, 1664 - (i+j)));
+			g.addEdge(new Edge(n * i + j, n * (i + 1) + j, 1664 - (i + j)));
 
 		for (j = 0; j < n ; j++)		  
-		  g.addEdge(new Edge(n*(n-1)+j, n*n, 666));
+		  g.addEdge(new Edge(n * (n - 1) + j, n * n, 666));
 		
 		for (j = 0; j < n ; j++)					
-		  g.addEdge(new Edge(n*n+1, j, 0));
+		  g.addEdge(new Edge(n * n + 1, j, 0));
 		
-		g.addEdge(new Edge(13,17,1337));
+		g.addEdge(new Edge(13, 17, 1337));
 		g.writeFile("test.dot");
 		
 		// dfs à partir du sommet 3
-		visite = new boolean[n*n+2];
+		visite = new boolean[n * n + 2];
 		dfs(g, 3);
    }
    
@@ -76,9 +80,9 @@ class Test {
    }
    
    public static void testWritePgm() {
-	   int[][] image=SeamCarving.readpgm("modelisation/images/ex1.pgm");
+	   int[][] image = Lecture.readpgm("modelisation/image/ex1.pgm");
 	   
-	   SeamCarving.writepgm(image,"ex1-m.pgm");
+	   Ecriture.writepgm(image, "ex1-m.pgm");
    }
    
    public static void compare(int[][] interet, int[][] retourInterest) {
@@ -98,11 +102,12 @@ class Test {
    }
    
    public static void testTograph() {
-	   int interet[][] = { {8, 2, 1, 15}, 
-                           {13, 3, 1, 10},
-                           {140, 52, 5, 25}
-                         };
+	   int image[][] = { {3, 11, 24, 39},
+	                     {8, 21, 29, 39},
+	                     {200, 60, 25, 0}
+	                   };
 	   
+	   int[][] interet = SeamCarving.interest(image);
 	   Graph g = SeamCarving.tograph(interet);
 	   
 	   g.writeFile("test.dot");

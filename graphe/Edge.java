@@ -1,4 +1,4 @@
-package modelisation;
+package modelisation.graphe;
 
 public class Edge {
 	
