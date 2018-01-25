@@ -15,7 +15,7 @@ class Heap
 		int i;
  		for (i = 0; i < N; i++) cor[i] = i+1;
 		for (i = 1; i < N+1; i++) item[i] = i-1;
-		for (i = 1; i < N+1; i++) heap[i] = Integer.MAX_VALUE;
+		for (i = 1; i < N+1; i++) heap[i] = Integer.MAX_VALUE; //+infinity
 	 }
 
    int priority(int x)
