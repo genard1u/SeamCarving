@@ -20,7 +20,7 @@ public class Test {
    }
 
    public static void testHeap() {
-		// Crée ue file de priorité contenant les entiers de 0 à 9, tous avec priorité +infty
+		// Crée une file de priorité contenant les entiers de 0 à 9, tous avec priorité +infty
 		Heap h = new Heap(10);
 		h.decreaseKey(3,1664);
 		h.decreaseKey(4,5);
@@ -80,9 +80,9 @@ public class Test {
    }
    
    public static void testWritePgm() {
-	   int[][] image=SeamCarving.readpgm("modelisation/images/ex1.pgm");
+	   int[][] image = Lecture.readpgm("modelisation/image/ex1.pgm");
 	   
-	   SeamCarving.writepgm(image,"ex1-m.pgm");
+	   Ecriture.writepgm(image, "ex1-m.pgm");
    }
    
    public static void compare(int[][] interet, int[][] retourInterest) {
