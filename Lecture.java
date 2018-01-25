@@ -43,18 +43,31 @@ public class Lecture {
 		    }
 		   
 		    s.close();
-         }
-		
-         catch (Throwable t) {
-             t.printStackTrace(System.err);
-             System.exit(1);
-         }
+        } 
+		     
+        catch (Throwable t) {
+            t.printStackTrace(System.err);
+            System.exit(1);
+        }
         
-         return im;
-    }    
+        return im;
+    }        
 	
 	public static int[][] readppm(String fn) {
-		return null;
+        int[][] im = null;
+		
+        try {
+            InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fn);
+            BufferedReader d = new BufferedReader(new InputStreamReader(f));
+			String magic = d.readLine();
+            String line = d.readLine();
+        }
+        catch (Throwable t) {
+            t.printStackTrace(System.err);
+            System.exit(1);
+        }
+        
+		return im;
 	}
 	
 }

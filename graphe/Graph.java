@@ -78,7 +78,7 @@ public class Graph {
 			 writer.println("}");
 			 writer.close();
 	   }
-	   catch (IOException e){
+	   catch (IOException e) {
 		   System.err.println("impossible d'écrire le fichier");
 		   System.exit(1);
 	   }						
