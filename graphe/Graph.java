@@ -170,10 +170,10 @@ public class Graph {
 		   changement = false;
 		   
 		   /* On parcourt chaque arête */
-		   for (Edge e : edges(topo())) {
+		   for (Edge e : edges()) {
 			   if (d[e.to] > (d[e.from] + e.cost)) {
 				   d[e.from] = d[e.to] + e.cost;
-				   changement=true;
+				   changement = true;
 			   }
 		   }
 		   
@@ -189,21 +189,20 @@ public class Graph {
    
    /**
     * algorithme de Dijkstra
-    * @param s
+    * @param source
     * @return tableau des plus courts chemins
     */
    public int[] dijkstra(int s) {
 	   Heap H = new Heap(vertices());
 	   boolean[] v = new boolean[vertices()];
-	   int[] d = new int[vertices()];
+	   int[] p = new int[vertices()];
 	   	   
 	   for (int i = 0; i < vertices(); i++) {
 		   v[i] = false;
-		   d[i] = Integer.MAX_VALUE;
+		   p[i] = -1;
 	   }
 	   
 	   H.decreaseKey(s, 0);
-	   d[s] = 0;
 	   
 	   for (int i = 0; i < vertices(); i++) {
 		   int min = H.pop();
@@ -212,15 +211,15 @@ public class Graph {
 		   
 		   for (Edge e : next(min)) {
 			   if (!v[e.to]) {
-				   if (d[e.to] > e.cost + d[e.from]) {
-					   H.decreaseKey(e.to, e.cost + d[e.from]);	
-					   d[e.to] = e.cost = d[e.from];
+				   if (H.priority(e.to) > e.cost + H.priority(e.from)) {
+					   H.decreaseKey(e.to, e.cost + H.priority(e.from));	
+					   p[e.to] = e.from;
 				   }
 			   }
 		   }
 	   }
 	   
-	   return d;
+	   return p;
    }
    
 }

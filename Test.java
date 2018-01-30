@@ -1,5 +1,7 @@
 package modelisation;
 
+import java.util.Random;
+
 import modelisation.graphe.Edge;
 import modelisation.graphe.Graph;
 
@@ -63,22 +65,6 @@ public class Test {
 		dfs(g, 3);
    }
    
-   public static void testInterest() {
-	   int image[][] = { {3, 11, 24, 39},
-			             {8, 21, 29, 39},
-			             {200, 60, 25, 0}
-			           };
-	   
-	   int interet[][] = { {8, 2, 1, 15}, 
-			               {13, 3, 1, 10},
-			               {140, 52, 5, 25}
-	                     };
-	   
-	   int retourInterest[][] = SeamCarving.interest(image);
-	   
-	   compare(interet, retourInterest);
-   }
-   
    public static void testWritePgm() {
 	   int[][] image = Lecture.readpgm("modelisation/image/ex1.pgm");
 	   
@@ -101,24 +87,113 @@ public class Test {
 	   }	  
    }
    
+   public static void testInterest() {
+	   int image[][] = { {3, 11, 24, 39},
+			             {8, 21, 29, 39},
+			             {200, 60, 25, 0}
+			           };
+	   
+	   int interet[][] = { {8, 2, 1, 15}, 
+			               {13, 3, 1, 10},
+			               {140, 52, 5, 25}
+	                     };
+	   
+	   int retourInterest[][] = SeamCarving.interest(image);
+	   
+	   compare(interet, retourInterest);
+   }
+   
    public static void testTograph() {
 	   int image[][] = { {3, 11, 24, 39},
 	                     {8, 21, 29, 39},
 	                     {200, 60, 25, 0}
 	                   };
 	   
-	   int[][] interet = SeamCarving.interest(image);
-	   Graph g = SeamCarving.tograph(interet);
+	   int[][] itr = SeamCarving.interest(image);
+	   Graph g = SeamCarving.tograph(itr);
 	   
 	   g.writeFile("test.dot");
    }
    
-   public static void main(String[] args) {
-		testHeap();
-		testGraph();
-		testWritePgm();
-		testInterest();
-		testTograph();
+   public static Graph graph(int l, int c) {
+	   int[][] image = new int[l][c];	   
+	   Random r = new Random();
+	   
+	   for (int i = 0; i < l; i++) {
+		   for (int j = 0; j < c; j++) {
+			   image[i][j] = r.nextInt(200);
+		   }
+	   }
+	   
+	   int[][] itr = SeamCarving.interest(image);
+	   Graph g = SeamCarving.tograph(itr);
+	   
+	   return g;
+   }
+   
+   public static void testDijkstra() {
+	   int l = 4;
+	   int c = 4;
+	   int source = l * c;
+	   
+	   Graph g = graph(l, c);
+	   
+	   g.writeFile("test.dot");
+	   System.out.println("Dijkstra :");
+	   
+	   int[] p = g.dijkstra(source);
+	   
+	   System.out.print("\tparents : ");
+	   
+	   for (int i = 0; i < g.vertices(); i++) {
+		   System.out.print(p[i] + ", ");
+	   }
+
+	   System.out.println();	   
+	   System.out.print("\tchemin : ");
+	   
+	   int emprunte = source + 1;
+	   
+	   while (emprunte > 0) {
+		   System.out.print(emprunte + ", ");
+		   emprunte = p[emprunte];
+	   }
+   }
+   
+   public static void testTopo() {
+       Graph g = graph(4, 4);
+	   
+	   g.writeFile("test.dot");
+	   System.out.print("Ordre Topologique : ");
+	   
+	   int[] ordre = g.topo();
+	   
+	   for (int i = 0; i < g.vertices(); i++) {
+		   System.out.print(ordre[i] + ", ");
+	   }
+	   
+	   System.out.println();
+   }
+   
+   public static void testBellman() {
+       Graph g = graph(4, 4);
+	   
+	   g.writeFile("test.dot");
+       System.out.print("Bellman : ");
+	   
+	   int[] d = g.bellman(16);
+	   
+	   if (d != null) {
+	       for (int i = 0; i < g.vertices(); i++) {
+		       System.out.print(d[i] + ", ");
+	       }
+	   }
+	   
+	   System.out.println();
+   }
+   
+   public static void main(String[] args) {		
+	   testDijkstra();
    }
 
 }
