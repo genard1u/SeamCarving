@@ -1,5 +1,7 @@
 package modelisation;
 
+import java.util.ArrayList;
+
 import modelisation.graphe.Edge;
 import modelisation.graphe.Graph;
 
@@ -97,12 +99,28 @@ public class SeamCarving {
 	   return g;
    }
    
-   public static int[][] reduction(int[][] image) {
-	   int[][] itr = interest(image);
+   public static int[][] reduction(int[][] img) {
+	   int height = img.length;
+	   int width = img[0].length;
+	   int s = width * height;
 	   
+	   if (width < 1) return null;
+	   	 
+	   /* déclaration de la nouvelle image */
+	   int[][] img2 = new int[height][width - 1];
+	   
+	   int[][] itr = interest(img);	   
 	   Graph g = tograph(itr);
+	   ArrayList<Integer> chemin = g.dijkstra(s, s + 1);
 	   
-	   return null;
+	   for (int i = 0; i < chemin.size(); i++) {
+		   int sommet = chemin.get(i);
+	       img[sommet / width][sommet % width] = -1;
+	   }
+	   
+	   /* il faut encore remplir la nouvelle image */
+	   
+	   return img2;
    }
    
 }

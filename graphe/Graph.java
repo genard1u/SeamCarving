@@ -190,9 +190,27 @@ public class Graph {
    }
    
    /**
+    * @param s
+    * @param t
+    * @return sommets du chemin de coût minimal de s à t
+    */
+   public ArrayList<Integer> bellman(int s, int t) {
+	   ArrayList<Integer> chemin = new ArrayList<Integer>();
+	   int[] p = bellman(s);
+       int emprunte = t;
+	   
+       while (p[emprunte] != s) {
+		   emprunte = p[emprunte];
+		   chemin.add(emprunte);
+       }
+       
+	   return chemin;
+   }
+   
+   /**
     * algorithme de Dijkstra
     * @param source
-    * @return tableau des plus courts chemins
+    * @return tableau des parents
     */
    public int[] dijkstra(int s) {
 	   Heap H = new Heap(vertices());
@@ -222,6 +240,24 @@ public class Graph {
 	   }
 	   
 	   return p;
+   }
+   
+   /**
+    * @param s
+    * @param t
+    * @return sommets du chemin de coût minimal de s à t
+    */
+   public ArrayList<Integer> dijkstra(int s, int t) {
+	   ArrayList<Integer> chemin = new ArrayList<Integer>();
+	   int[] p = dijkstra(s);
+       int emprunte = t;
+	   
+       while (p[emprunte] != s) {
+		   emprunte = p[emprunte];
+		   chemin.add(emprunte);
+       }
+       
+	   return chemin;
    }
    
 }
