@@ -97,4 +97,20 @@ public class SeamCarving {
 	   return g;
    }
    
+   public static int bellman(Graph g, int s, int t) {
+	   return g.bellman(s)[t];
+   }
+   
+   public static int dijkstra(Graph g, int s, int t) {
+	   return g.dijkstra(s)[t];
+   }
+   
+   public static int[][] reduction(int[][] image) {
+	   int[][] itr = interest(image);
+	   
+	   Graph g = tograph(itr);
+	   
+	   return null;
+   }
+   
 }
