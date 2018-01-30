@@ -151,15 +151,16 @@ public class Graph {
     * algorithme de Bellman-Ford
     * les sommets sont traités dans l'ordre du tri topologique
     * @param sommet source
-    * @return tableau des coûts minimaux, null si présence d'un cycle de coût négatif
+    * @return tableau des parents, null si présence d'un cycle de coût négatif
     */
    public int[] bellman(int s) {
 	   int[] d = new int[vertices()];
+	   int[] p = new int[vertices()];
 	   
-	   /* On initialise le tableau des distances
-	      d[i] = +infinity */
-	   for (int i = 0; i < d.length; i++) {
+	   /* On initialise les tableaux des distances et des parents */
+	   for (int i = 0; i < vertices(); i++) {
 		   d[i] = Integer.MAX_VALUE;
+		   p[i] = -1;
 	   }
 
 	   d[s] = 0;
@@ -170,20 +171,21 @@ public class Graph {
 		   changement = false;
 		   
 		   /* On parcourt chaque arête */
-		   for (Edge e : edges()) {
+		   for (Edge e : edges(topo())) {
 			   if (d[e.to] > (d[e.from] + e.cost)) {
-				   d[e.from] = d[e.to] + e.cost;
+				   d[e.to] = d[e.from] + e.cost;
+				   p[e.to] = e.from;
 				   changement = true;
 			   }
 		   }
 		   
 		   /* Le tableau des distances s'est stabilisé */
 		   if (changement == false) {
-			   return d;
+			   return p;
 		   }
 	   }
 	   
-	   /* Au moins une valeur du tableau a changé lors de la dernière itération = cycle négatif */
+	   /* Le tableau a changé lors de la dernière itération = cycle négatif */
 	   return null;
    }
    

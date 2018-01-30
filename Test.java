@@ -154,10 +154,12 @@ public class Test {
 	   
 	   int emprunte = source + 1;
 	   
-	   while (emprunte > 0) {
+	   while (emprunte != source) {
 		   System.out.print(emprunte + ", ");
 		   emprunte = p[emprunte];
 	   }
+	   
+	   System.out.print(emprunte);
    }
    
    public static void testTopo() {
@@ -176,24 +178,38 @@ public class Test {
    }
    
    public static void testBellman() {
-       Graph g = graph(4, 4);
+	   int l = 4;
+	   int c = 4;
+	   int source = l * c;
+	   
+	   Graph g = graph(l, c);
 	   
 	   g.writeFile("test.dot");
-       System.out.print("Bellman : ");
+	   System.out.println("Bellman :");
 	   
-	   int[] d = g.bellman(16);
+	   int[] p = g.bellman(source);
 	   
-	   if (d != null) {
-	       for (int i = 0; i < g.vertices(); i++) {
-		       System.out.print(d[i] + ", ");
-	       }
+	   System.out.print("\tparents : ");
+	   
+	   for (int i = 0; i < p.length; i++) {
+		   System.out.print(p[i] + ", ");
+	   }
+
+	   System.out.println();	   
+	   System.out.print("\tchemin : ");
+	   
+	   int emprunte = source + 1;
+	   
+	   while (emprunte != source) {
+		   System.out.print(emprunte + ", ");
+		   emprunte = p[emprunte];
 	   }
 	   
-	   System.out.println();
+	   System.out.print(emprunte);
    }
    
    public static void main(String[] args) {		
-	   testDijkstra();
+	   testBellman();
    }
 
 }
