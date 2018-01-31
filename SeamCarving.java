@@ -7,6 +7,24 @@ import modelisation.graphe.Graph;
 
 public class SeamCarving {
    
+   public SeamCarving(String source, String dest, int reduction) {
+	   int[][] img = Lecture.readpgm(source);
+	   
+	   for (int i = 0; i < reduction; i++) {
+		   img = reduction(img);
+		   
+		   if (img == null) {
+			   if (i > 0) System.out.println();
+			   throw new ReductionException(i, reduction);
+		   }
+		   
+		   System.out.print(".");
+	   }
+	   
+	   if (reduction > 0) System.out.println();
+	   Ecriture.writepgm(img, dest);
+   }
+   
    public static int[][] interest (int[][] image) {
 	   int hauteur = image.length;
 	   int largeur = image[0].length;
@@ -45,8 +63,8 @@ public class SeamCarving {
    }
    
    /**
-    * Le sommet tout en haut est l'avant dernier.
-    * Celui tout en bas est le dernier.
+    * le sommet tout en haut est l'avant-dernier
+    * celui tout en bas est le dernier
     * @param itr
     * @return tableau itr en graphe
     */
@@ -99,6 +117,10 @@ public class SeamCarving {
 	   return g;
    }
    
+   /**
+    * @param img
+    * @return img réduite de 1 colonne, null si la largeur est nulle
+    */
    public static int[][] reduction(int[][] img) {
 	   int height = img.length;
 	   int width = img[0].length;
@@ -115,12 +137,47 @@ public class SeamCarving {
 	   
 	   for (int i = 0; i < chemin.size(); i++) {
 		   int sommet = chemin.get(i);
+		   
 	       img[sommet / width][sommet % width] = -1;
 	   }
 	   
 	   /* il faut encore remplir la nouvelle image */
 	   
 	   return img2;
+   }
+   
+   public static void aucunArgument() {
+	   System.err.println("Nombre incorrect d'arguments");
+       System.err.println("\tjava -jar SeamCarving.jar <source.pgm> <nouveau.pgm> <réduction>");
+       System.exit(1);
+   }
+   
+   public static int reduction(String arg) {
+	   int reduction = 50;
+	   
+	   try {
+           reduction = Integer.parseInt(arg);
+       }
+       catch (NumberFormatException nfe) {
+           nfe.printStackTrace();
+       }
+	   
+	   return reduction;
+   }
+   
+   public static void main(String[] args) {
+	   switch (args.length) {
+	       case 0:
+	    	   aucunArgument();
+	       case 1: 
+		       new SeamCarving(args[0], args[0], 50);
+		       break;
+	       case 2:
+	    	   new SeamCarving(args[0], args[1], 50);
+		       break;
+		   default:
+			   new SeamCarving(args[0], args[1], reduction(args[2]));
+	   } 
    }
    
 }
