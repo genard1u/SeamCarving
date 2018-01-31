@@ -192,7 +192,7 @@ public class Graph {
    /**
     * @param s
     * @param t
-    * @return sommets du chemin de coût minimal de s à t
+    * @return sommets du chemin de coût minimal de s à t dans l'ordre inverse (s et t exclus)
     */
    public ArrayList<Integer> bellman(int s, int t) {
 	   ArrayList<Integer> chemin = new ArrayList<Integer>();
@@ -245,7 +245,7 @@ public class Graph {
    /**
     * @param s
     * @param t
-    * @return sommets du chemin de coût minimal de s à t
+    * @return sommets du chemin de coût minimal de s à t dans l'ordre inverse (s et t exclus)
     */
    public ArrayList<Integer> dijkstra(int s, int t) {
 	   ArrayList<Integer> chemin = new ArrayList<Integer>();

@@ -1,5 +1,6 @@
 package modelisation;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import modelisation.graphe.Edge;
@@ -206,6 +207,16 @@ public class Test {
 	   }
 	   
 	   System.out.print(emprunte);
+	   
+	   System.out.println();	   
+	   System.out.print("\tchemin2 : ");
+	   
+	   ArrayList<Integer> chemin = g.dijkstra(source, source + 1);
+	   for (int i = 0; i < chemin.size(); i++) {
+		   System.out.print(chemin.get(i) + ", ");
+	   }
+	   
+	   System.out.println();
    }
    
    public static void main(String[] args) {		

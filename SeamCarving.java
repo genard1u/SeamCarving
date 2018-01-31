@@ -141,7 +141,16 @@ public class SeamCarving {
 	       img[sommet / width][sommet % width] = -1;
 	   }
 	   
-	   /* il faut encore remplir la nouvelle image */
+	   int pixel = 0;
+	   
+	   /* remplissage de la nouvelle image */
+	   for (int i = 0; i < height; i++) {
+	       for (int j = 0; j < width ; j++) {
+	    	   if (img[i][j] != -1) {	    		    
+	    		   img2[pixel / (width - 1)][pixel % (width - 1)] = img[i][j];
+	    	   }	    		
+	       }
+	   }
 	   
 	   return img2;
    }

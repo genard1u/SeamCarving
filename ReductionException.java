@@ -1,5 +1,6 @@
 package modelisation;
 
+@SuppressWarnings("serial")
 public class ReductionException extends RuntimeException {
 
 	public ReductionException(int i, int r) {

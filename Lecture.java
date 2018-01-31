@@ -53,6 +53,7 @@ public class Lecture {
         return im;
     }        
 	
+	@SuppressWarnings("unused")
 	public static int[][][] readppm(String fn) {
         int[][][] im = null;
 		
