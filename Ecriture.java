@@ -12,7 +12,7 @@ public class Ecriture {
 			writer.println("P2");
 			
 			/* Facultatif */
-			writer.println("#Ce fichier a été écrit par SeamCarving");
+			writer.println("# Ce fichier a été écrit par SeamCarving");
 			
 			int height = image.length;
 			int width = image[0].length;

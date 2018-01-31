@@ -53,14 +53,48 @@ public class Lecture {
         return im;
     }        
 	
-	public static int[][] readppm(String fn) {
-        int[][] im = null;
+	public static int[][][] readppm(String fn) {
+        int[][][] im = null;
 		
         try {
             InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fn);
             BufferedReader d = new BufferedReader(new InputStreamReader(f));
 			String magic = d.readLine();
             String line = d.readLine();
+            
+            int[] h = new int[3];            
+            int nb = 0;
+            
+            do {
+            	while (line.startsWith("#")) {
+    		 	    line = d.readLine();
+    		    }
+            	
+            	Scanner s = new Scanner(line);
+            	
+            	while (s.hasNextInt() && nb < 3) {
+            		h[nb] = s.nextInt();
+            		nb++;
+            	}
+            	
+            	s.close();
+            } while (nb < 3);
+                       
+            Scanner s = new Scanner(d);
+ 		    int width = h[0];
+ 		    int height = h[1];	
+		   
+		    im = new int[height][width][3];
+		    
+		    for (int i = 0; i < height; i++) {
+		    	for (int j = 0; j < width; j++) {
+		    		im[i][j][0] = s.nextInt();
+		    		im[i][j][1] = s.nextInt();
+		    		im[i][j][2] = s.nextInt();
+		    	}
+		    }
+		   
+		    s.close();		
         }
         catch (Throwable t) {
             t.printStackTrace(System.err);
