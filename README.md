@@ -9,8 +9,7 @@ dot -Tsvg test.dot > test.svg
 ```
 
 ## Images
-- [Réservoir_PGM](http://igm.univ-mlv.fr/~incerti/IMAGES/PGM.htm)
-- [Réservoir_PGM_2](http://people.sc.fsu.edu/~jburkardt/data/pgma/)
+- [Réservoir_PGM](http://people.sc.fsu.edu/~jburkardt/data/pgma/)
 - [Réservoir_PPM](http://igm.univ-mlv.fr/~incerti/IMAGES/PPM.htm)
 
 ## Documentation PPM

@@ -10,16 +10,20 @@ public class SeamCarving {
    public SeamCarving(String source, String dest, int reduction) {
 	   int[][] img = Lecture.readpgm(source);
 	
-	   for (int i = 0; i < reduction; i++) {
-		   img = reduction(img);
-		   
-		   if (img == null) {
-			   if (i > 0) System.out.println();
-			   throw new ReductionException(i, reduction);
-		   }
-		   
-		   System.out.print(".");
-	   } 
+	   if (img[0].length - reduction >= 3) {
+		   for (int i = 0; i < reduction; i++) {
+			   img = reduction(img);
+			   
+			   if (img == null) {
+				   if (i > 0) System.out.println();
+				   throw new ReductionException(i, reduction);
+			   }
+			   
+			   System.out.print(".");
+		   } 		   
+	   } else {
+		   System.err.print("La reduction est trop grande, la longueur de l'image finale doit être supérieur ou égale à 3");
+	   }
 	   
 	   if (reduction > 0) System.out.println(); 
 	   Ecriture.writepgm(img, dest);
