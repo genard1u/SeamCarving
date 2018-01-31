@@ -9,7 +9,7 @@ public class SeamCarving {
    
    public SeamCarving(String source, String dest, int reduction) {
 	   int[][] img = Lecture.readpgm(source);
-	   
+	
 	   for (int i = 0; i < reduction; i++) {
 		   img = reduction(img);
 		   
@@ -19,9 +19,9 @@ public class SeamCarving {
 		   }
 		   
 		   System.out.print(".");
-	   }
+	   } 
 	   
-	   if (reduction > 0) System.out.println();
+	   if (reduction > 0) System.out.println(); 
 	   Ecriture.writepgm(img, dest);
    }
    
@@ -60,6 +60,22 @@ public class SeamCarving {
 	   }
 	   
 	   return interet;
+   }
+   
+   public static int[][] energie (int[][] image) {
+	   int hauteur = image.length;
+	   int largeur = image[0].length;
+	   int pixels = hauteur * largeur;
+	   int[][] itr = new int[hauteur][largeur];
+	   
+	   for (int indice = 0; indice < pixels; indice ++) {
+		   int y = indice / largeur;
+		   int x = indice % largeur;		
+		   int val = image[y][x];	
+		   
+	   }
+	   
+	   return itr;
    }
    
    /**
@@ -148,7 +164,8 @@ public class SeamCarving {
 	       for (int j = 0; j < width ; j++) {
 	    	   if (img[i][j] != -1) {	    		    
 	    		   img2[pixel / (width - 1)][pixel % (width - 1)] = img[i][j];
-	    	   }	    		
+	    		   pixel++;
+	    	   }	
 	       }
 	   }
 	   
