@@ -9,6 +9,8 @@ public class Ecriture {
 	public static void writepgm(int[][] image, String filename) {
 		try {
 		    PrintWriter writer = new PrintWriter(filename, "UTF-8");
+		    
+		    /* Code magique */
 			writer.println("P2");
 			
 			/* Facultatif */
@@ -44,8 +46,47 @@ public class Ecriture {
 		}
 	}
 	
-	public static void writeppm(int[][] image, String filename) {
-		
+	public static void writeppm(int[][][] image, String filename) {
+		try {
+		    PrintWriter writer = new PrintWriter(filename, "UTF-8");
+		    
+		    /* Code magique */
+			writer.println("P3");
+			
+			/* Facultatif */
+			writer.println("# Ce fichier a été écrit par SeamCarving");
+			
+			int height = image.length;
+			int width = image[0].length;
+			
+			writer.println(width + " " + height);
+			writer.println("255");
+			
+            int ligne = 0;
+			
+			for (int i = 0; i < height; i++) {
+				for (int j = 0; j < width; j++) {
+					writer.print(image[i][j][0] + " ");
+					writer.print(image[i][j][1] + " ");
+					writer.print(image[i][j][2] + " ");
+					ligne++;
+					   
+					/* Aucune ligne ne doit excéder 70 caractères */
+					if (ligne > 8) {
+					    writer.println();
+						ligne = 0;
+					}
+				}
+			}
+			   
+			writer.close(); 
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+	    } 
+		catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

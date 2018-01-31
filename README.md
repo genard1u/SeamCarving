@@ -3,10 +3,6 @@
 ## Auteurs
 Clément Bellanger, Pierre Génard
 
-## Feuille de route
-- **Première partie** Vendredi 2 Février 20:00
-- **Deuxième partie**
-
 ## Générer l'image d'un graphe
 ```bash
 dot -Tsvg test.dot > test.svg
@@ -25,3 +21,7 @@ dot -Tsvg test.dot > test.svg
 - [Bourke](http://paulbourke.net/dataformats/ppm/)
 - [Polytechnique](https://www.enseignement.polytechnique.fr/informatique/profs/Philippe.Chassignet/PGM/index.html)
 - [Openclassrooms](https://openclassrooms.com/forum/sujet/lecture-et-modification-d-une-image-ppm-73883)
+
+## Feuille de route
+- **Première partie** Vendredi 2 Février 20:00
+- **Deuxième partie**
