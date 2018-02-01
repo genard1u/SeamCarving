@@ -219,8 +219,14 @@ public class Test {
 	   System.out.println();
    }
    
+   public static void testPPM(String source) {
+	   int[][][] img = Lecture.readppm(source);
+	   
+	   Ecriture.writeppm(img, "chat.ppm");
+   }
+   
    public static void main(String[] args) {		
-	   testBellman();
+	   testPPM(args[0]);
    }
 
 }
