@@ -59,25 +59,87 @@ public class SeamCarving {
     }
    
     /**
-     * @deprecated
-     * @param image
+     * sommet tout en haut = avant-dernier
+     * celui tout en bas = dernier
+     * @param img
      * @return
      */
-    public static int[][] energie(int[][] image) {
-	    int hauteur = image.length;
-	    int largeur = image[0].length;
+    public static Graph energie(int[][] img) {
+	    int hauteur = img.length;
+	    int largeur = img[0].length;
 	    
 	    assert hauteur >= HAUTEUR_MINI;
 	    assert largeur >= LARGEUR_MINI;
 	    
-	    int[][] itr = new int[hauteur][largeur];
-	   	   
-	    return itr;
+	    int pixels = hauteur * largeur;
+	    int source = pixels;
+	    int puits = pixels + 1;
+	    int derniereRangee = pixels - largeur;
+	    Graph g = new Graph(pixels + 2);
+	   	
+	    for (int i = 0; i < largeur; i ++) {
+		    g.addEdge(new Edge(source, i, 0));
+	    }
+	    
+	    int gauche = 0;
+	    int milieu = 0;
+	    int droite = 0;
+	    
+	    for (int p = 0; p < derniereRangee; p ++) {
+		    int i = p / largeur;
+		    int j = p % largeur;
+		    		    
+            if (j == 0) {
+            	milieu = Math.abs(img[i][j + 1]);
+            	droite = Math.abs(img[i][j + 1] - img[i + 1][j]);
+            	
+            	g.addEdge(new Edge(p, p + largeur, milieu));
+			    g.addEdge(new Edge(p, p + largeur + 1, droite));
+            }
+            else if (j == largeur -1) {
+            	gauche = Math.abs(img[i][j - 1] - img[i + 1][j]);
+            	milieu = Math.abs(img[i][j - 1]);
+            	
+            	g.addEdge(new Edge(p, p + largeur - 1, gauche));
+			    g.addEdge(new Edge(p, p + largeur, milieu));
+            }
+            else {
+            	milieu = Math.abs(img[i][j + 1] - img[i][j - 1]);
+            	droite = Math.abs(img[i][j + 1] - img[i + 1][j]);
+            	gauche = Math.abs(img[i][j - 1] - img[i + 1][j]);
+            	
+            	g.addEdge(new Edge(p, p + largeur - 1, gauche));
+			    g.addEdge(new Edge(p, p + largeur, milieu));
+			    g.addEdge(new Edge(p, p + largeur + 1, droite));
+            }  
+	    }
+	   	
+	   	for (int i = derniereRangee; i < pixels; i ++) {
+	   		int y = i / largeur;
+		    int x = i % largeur;
+		    int cout = 0;
+		    
+		    if (x == 0) {
+		    	cout = img[y][x + 1];
+		    }
+		    else if (x == largeur - 1) {
+		    	cout = img[y][x - 1];
+		    }
+		    else {
+		    	cout = img[y][x - 1];
+		    	cout -= img[y][x + 1];
+		    	cout = Math.abs(cout);
+		    }
+		    
+		    g.addEdge(new Edge(i, puits, cout));
+	    }
+	   	
+	    return g;
     }
    
     /**
-     * le sommet tout en haut est l'avant-dernier
-     * celui tout en bas est le dernier
+     * sommet tout en haut = avant-dernier
+     * celui tout en bas = dernier
      * @param itr
      * @return itr en graphe
      */
@@ -140,10 +202,10 @@ public class SeamCarving {
 	    
 	    int source = largeur * hauteur;
 	    int puits = source + 1;	    
-	    
-	    int[][] img2 = new int[hauteur][largeur - 1];	   
-	    int[][] itr = interest(img);	   
-	    Graph g = tograph(itr);	    
+	   	    	   
+	    /* int[][] itr = interest(img);	   
+	    Graph g = tograph(itr);  */
+	    Graph g = energie(img);
 	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
 	   
 	    for (int i = 0; i < chemin.size(); i ++) {
@@ -152,6 +214,7 @@ public class SeamCarving {
 	        img[sommet / largeur][sommet % largeur] = -1;
 	    }
 	   
+	    int[][] img2 = new int[hauteur][largeur - 1];
 	    int pixel = 0;
 	   
 	    for (int i = 0; i < hauteur; i ++) {

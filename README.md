@@ -22,5 +22,5 @@ dot -Tsvg test.dot > test.svg
 - [Openclassrooms](https://openclassrooms.com/forum/sujet/lecture-et-modification-d-une-image-ppm-73883)
 
 ## Feuille de route
-- **Première partie** Vendredi 2 Février 20:00
+- **Première partie** --> Vendredi 2 Février 20:00
 - **Deuxième partie**
