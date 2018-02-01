@@ -60,12 +60,13 @@ public class Lecture {
             InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fn);
             BufferedReader d = new BufferedReader(new InputStreamReader(f));
 			String magic = d.readLine();
-            String line = d.readLine();
             
             int[] h = new int[3];            
             int nb = 0;
             
             do {
+            	String line = d.readLine();
+            	
             	while (line.startsWith("#")) {
     		 	    line = d.readLine();
     		    }
@@ -80,6 +81,12 @@ public class Lecture {
             	s.close();
             } while (nb < 3);
                        
+            for (int i = 0; i < 3; i ++) {
+            	System.out.print(h[i] + ", ");
+            }
+            
+            System.out.println();
+            
             Scanner s = new Scanner(d);
  		    int width = h[0];
  		    int height = h[1];	
@@ -103,5 +110,5 @@ public class Lecture {
         
 		return im;
 	}
-	
+
 }

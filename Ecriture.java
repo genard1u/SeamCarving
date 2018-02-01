@@ -72,7 +72,7 @@ public class Ecriture {
 					ligne++;
 					   
 					/* Aucune ligne ne doit excéder 70 caractères */
-					if (ligne > 8) {
+					if (ligne > 5) {
 					    writer.println();
 						ligne = 0;
 					}
