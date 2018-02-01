@@ -30,6 +30,61 @@ public class SeamCarving {
     }
    
     /**
+     * gestion de la couleur, reduction à utiliser avec interest
+     * @param source
+     * @param dest
+     * @param reduction
+     * @param couleur
+     */
+    public SeamCarving(String source, String dest, int reduction, boolean couleur) {
+    	int[][][] img = Lecture.readppm(source);
+    	int hauteur = img.length;
+	    int largeur = img[0].length;
+	    int pixels = hauteur * largeur;
+	    
+	    if (largeur - reduction < LARGEUR_MINI) {
+		    System.err.println("La largeur de la nouvelle image doit être au moins de " + LARGEUR_MINI);
+		    System.exit(1);
+	    }
+	    
+	    int[][] r = new int[hauteur][largeur];
+	    int[][] g = new int[hauteur][largeur];
+	    int[][] b = new int[hauteur][largeur];
+	    
+	    for (int i = 0; i < pixels; i ++) {
+	    	int y = i / largeur;
+	    	int x = i % largeur;
+	    	
+	    	r[y][x] = img[y][x][0];
+	    	g[y][x] = img[y][x][1];
+	    	b[y][x] = img[y][x][2];
+	    }
+	    
+	    for (int i = 0; i < reduction; i ++) {
+		    r = reduction(r);
+		    g = reduction(g); 
+		    b = reduction(b); 
+		    System.out.print(".");
+	    } 
+	    
+	    largeur -= reduction;
+	    pixels = hauteur * largeur;
+	    img = new int[hauteur][largeur][3];
+	    	    
+	    for (int i = 0; i < pixels; i ++) {
+	    	int y = i / largeur;
+	    	int x = i % largeur;
+	    	
+	    	img[y][x][0] = r[y][x];
+	    	img[y][x][1] = g[y][x];
+	    	img[y][x][2] = b[y][x];
+	    }
+	    
+	    if (reduction > 0) System.out.println(); 
+	    Ecriture.writeppm(img, dest);
+    }
+    
+    /**
      * pour la gestion de pixels à garder ou à supprimer
      * @param source
      * @param dest
@@ -236,9 +291,9 @@ public class SeamCarving {
 	    int source = largeur * hauteur;
 	    int puits = source + 1;	    
 	   	    	   
-	    /* int[][] itr = interest(img);	   
-	    Graph g = tograph(itr);  */
-	    Graph g = energie(img);
+	    int[][] itr = interest(img);	   
+	    Graph g = tograph(itr);  
+	    /*Graph g = energie(img);*/
 	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
 	   
 	    for (int i = 0; i < chemin.size(); i ++) {
@@ -291,13 +346,13 @@ public class SeamCarving {
 	   
 	    for (int i = 0; i < chemin.size(); i ++) {
 		    int sommet = chemin.get(i);
-		    int h = sommet / largeur;
-		    int L = sommet % largeur;
+		    int y = sommet / largeur;
+		    int x = sommet % largeur;
 		    
-	        img[h][L] = -1;
+	        img[y][x] = -1;
 	        
-	        if (zone[1] == h) {
-	        	if (zone[0] > L) {
+	        if (zone[1] == y) {
+	        	if (zone[0] > x) {
 	        		/* décalage à gauche de la zone */
 	        		zone[0] --;
 	        		zone[2] --;
