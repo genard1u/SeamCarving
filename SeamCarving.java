@@ -145,6 +145,35 @@ public class SeamCarving {
 	   
 	    return itr;
     }
+    
+    public static int[][] interestCol(int[][] img) {
+	    int hauteur = img.length;
+	    int largeur = img[0].length;
+	    
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
+	    	    
+	    int[][] itr = new int[hauteur][largeur];
+	    int moyenne = 0;
+	    	    
+	    for (int y = 0; y < hauteur; y ++) {
+	    	for (int x = 0; x < largeur; x ++) {
+	    		if (y == 0) {
+			    	moyenne = img[y+1][x];
+			    }
+			    else if (y == hauteur-1) {
+			    	moyenne = img[y-1][x];
+			    }
+			    else {
+			    	moyenne = (img[y-1][x] + img[y+1][x]) / 2;
+			    }
+			   
+			    itr[y][x] = Math.abs(img[y][x] - moyenne);
+	    	}
+	    }   
+	   
+	    return itr;
+    }
    
     /**
      * sommet tout en haut = avant-dernier
