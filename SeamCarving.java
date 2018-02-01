@@ -109,7 +109,7 @@ public class SeamCarving {
 	    }
 	    
 	    for (int i = 0; i < reduction; i ++) {
-		    img = reduction(img, zone, true);   
+		    img = reduction(img, zone, false);   
 		    System.out.print(".");
 	    } 
 	   
@@ -340,7 +340,6 @@ public class SeamCarving {
 	    /* int[][] itr = interest(img);	   
 	    Graph g = tograph(itr);  */
 	    Graph g = energie(img);
-	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
 	    
 	    if (garde) {
 	        g.garder(zone, largeur);
@@ -350,6 +349,8 @@ public class SeamCarving {
 	    	zone[2]--;
 	    }
 	    	   
+	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
+	    
 	    for (int i = 0; i < chemin.size(); i ++) {
 		    int sommet = chemin.get(i);
 		    int y = sommet / largeur;
@@ -357,16 +358,20 @@ public class SeamCarving {
 		    
 	        img[y][x] = -1;
 	        
-	        /* à améliorer */
-	        if (zone[1] == y) {
-	        	if (zone[0] > x) {
-	        		/* décalage à gauche de la zone */
-	        		zone[0] --;
-	        		zone[2] --;
-	        	}
-	        }
+	        /* à améliorer 
+	        if (garde) {
+	            if (zone[1] == y) {
+	        	    if (zone[0] > x) {
+	        		    décalage à gauche de la zone 
+	        		    zone[0] --;
+	        		    zone[2] --;
+	        	    }
+	            }
+	        } */
 	    }
-	   
+	    
+	    
+	    
 	    int[][] img2 = new int[hauteur][largeur - 1];
 	    int pixel = 0;
 	   

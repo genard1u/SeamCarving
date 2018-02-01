@@ -219,14 +219,18 @@ public class Test {
 	   System.out.println();
    }
    
-   public static void testPPM(String source) {
-	   int[][][] img = Lecture.readppm(source);
+   public static void testPPM(String source, String dest) {
+	   new SeamCarving(source, dest, 50, true);
+   }
+   
+   public static void testZone(String source, String dest) {
+	   int[] zone = {100, 80, 460, 300};
 	   
-	   Ecriture.writeppm(img, "chat.ppm");
+	   new SeamCarving(source, dest, 320, zone);
    }
    
    public static void main(String[] args) {		
-	   testPPM(args[0]);
+	   testZone(args[0], args[1]);
    }
 
 }

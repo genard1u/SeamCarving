@@ -302,7 +302,11 @@ public class Graph {
 	   for (int y = zone[1]; y < zone[3]; y ++) {
 		   for (int x = zone[0]; x < zone[2]; x ++) {
 			   for (Edge e : prev(y * largeur + x)) {
-				   e.cost = Integer.MIN_VALUE;
+				   e.cost = -10000;
+			   }
+			   
+			   for (Edge e : next(y * largeur + x)) {
+				   e.cost = -10000;
 			   }
 		   }
 	   }
