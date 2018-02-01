@@ -29,12 +29,45 @@ public class SeamCarving {
 	    Ecriture.writepgm(img, dest);	    
     }
    
+    /**
+     * pour la gestion de pixels à garder ou à supprimer
+     * @param source
+     * @param dest
+     * @param reduction
+     * @param zone (coin haut gauche, coin bas droit)
+     */
+    public SeamCarving(String source, String dest, int reduction, int[] zone) {
+    	int[][] img = Lecture.readpgm(source);
+    	int hauteur = img.length;
+	    int largeur = img[0].length;
+	    int hauteurZone = zone[3] - zone[1];
+	    int largeurZone = zone[2] - zone[0];
+	    
+	    if (largeur - largeurZone - reduction < LARGEUR_MINI) {
+	    	System.err.println("La largeur de la nouvelle image doit être au moins de " + Math.max(LARGEUR_MINI, largeurZone));
+		    System.exit(1);
+	    }
+	    
+	    if (hauteur - hauteurZone < HAUTEUR_MINI) {
+	    	System.err.println("La hauteur de la nouvelle image doit être au moins de " + hauteurZone);
+		    System.exit(1);
+	    }
+	    
+	    for (int i = 0; i < reduction; i ++) {
+		    img = reduction(img, zone);   
+		    System.out.print(".");
+	    } 
+	   
+	    if (reduction > 0) System.out.println(); 
+	    Ecriture.writepgm(img, dest);
+    }
+    
     public static int[][] interest(int[][] img) {
 	    int hauteur = img.length;
 	    int largeur = img[0].length;
 	    
-	    assert hauteur >= HAUTEUR_MINI;
-	    assert largeur >= LARGEUR_MINI;
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
 	    	    
 	    int[][] itr = new int[hauteur][largeur];
 	    int moyenne = 0;
@@ -68,8 +101,8 @@ public class SeamCarving {
 	    int hauteur = img.length;
 	    int largeur = img[0].length;
 	    
-	    assert hauteur >= HAUTEUR_MINI;
-	    assert largeur >= LARGEUR_MINI;
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
 	    
 	    int pixels = hauteur * largeur;
 	    int source = pixels;
@@ -147,8 +180,8 @@ public class SeamCarving {
 	    int hauteur = itr.length;
 	    int largeur = itr[0].length;
 	    
-	    assert hauteur >= HAUTEUR_MINI;
-	    assert largeur >= LARGEUR_MINI;
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
 	    
 	    int pixels = hauteur * largeur;
 	    int source = pixels;
@@ -197,9 +230,9 @@ public class SeamCarving {
 	    int hauteur = img.length;
 	    int largeur = img[0].length;
 	    	    
-	    assert hauteur >= HAUTEUR_MINI;
-	    assert largeur >= LARGEUR_MINI;
-	    
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
+	  
 	    int source = largeur * hauteur;
 	    int puits = source + 1;	    
 	   	    	   
@@ -229,7 +262,65 @@ public class SeamCarving {
 	    return img2;
     }
    
-    public static void aucunArgument() {
+    /**
+     * pour la gestion de pixels à garder ou à supprimer
+     * @param img
+     * @return img réduite de 1 colonne
+     */
+    public static int[][] reduction(int[][] img, int[] zone) {
+	    int hauteur = img.length;
+	    int hauteurZone = zone[3] - zone[1];
+	    int largeur = img[0].length;
+	    int largeurZone = zone[2] - zone[0];
+	    
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
+	    assert hauteur > hauteurZone;
+	    assert largeur > largeurZone;
+	    
+	    int source = largeur * hauteur;
+	    int puits = source + 1;	    
+	   	    	   
+	    /* int[][] itr = interest(img);	   
+	    Graph g = tograph(itr);  */
+	    Graph g = energie(img);
+	    
+	    g.garder(zone, largeur);
+	    
+	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
+	   
+	    for (int i = 0; i < chemin.size(); i ++) {
+		    int sommet = chemin.get(i);
+		    int h = sommet / largeur;
+		    int L = sommet % largeur;
+		    
+	        img[h][L] = -1;
+	        
+	        if (zone[1] == h) {
+	        	if (zone[0] > L) {
+	        		/* décalage à gauche de la zone */
+	        		zone[0] --;
+	        		zone[2] --;
+	        	}
+	        }
+	    }
+	   
+	    int[][] img2 = new int[hauteur][largeur - 1];
+	    int pixel = 0;
+	   
+	    for (int i = 0; i < hauteur; i ++) {
+	        for (int j = 0; j < largeur; j ++) {
+	    	    if (img[i][j] != -1) {	    		    
+	    		    img2[pixel / (largeur - 1)][pixel % (largeur - 1)] = img[i][j];
+	    		    pixel ++;
+	    	    }	
+	        }
+	    }
+	   
+	    return img2;
+    }
+    
+    public static void nombreIncorrectArguments() {
 	    System.err.println("Nombre incorrect d'arguments");
         System.err.println("\tjava -jar SeamCarving.jar src.pgm [dest.pgm] [réduction]");
         System.exit(1);
@@ -251,16 +342,17 @@ public class SeamCarving {
    
     public static void main(String[] args) {
 	    switch (args.length) {
-	        case 0:
-	    	    aucunArgument();
 	        case 1: 
 		        new SeamCarving(args[0], args[0], 50);
 		        break;
 	        case 2:
 	    	    new SeamCarving(args[0], args[1], 50);
 		        break;
-		    default:
+	        case 3:
 			    new SeamCarving(args[0], args[1], reduction(args[2]));
+			    break;
+			default:
+				nombreIncorrectArguments();
 	    } 
     }
    

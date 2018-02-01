@@ -43,6 +43,23 @@ public class Graph {
        return adj[v];
    }      
 
+   /**
+    * pour la gestion de pixels à garder ou à supprimer
+    * @param v
+    * @return
+    */
+   public Iterable<Edge> prev(int v) {
+	   ArrayList<Edge> n = new ArrayList<Edge>();
+	   
+	   for (Edge e : adj(v)) {
+		   if (e.from != v) {
+			   n.add(e);
+		   }
+	   }
+	   
+	   return n;
+   }
+   
    public Iterable<Edge> next(int v) {
 	   ArrayList<Edge> n = new ArrayList<Edge>();
 		
@@ -259,6 +276,36 @@ public class Graph {
        }
        
 	   return chemin;
+   }
+   
+   /**
+    * pour la gestion de pixels à garder
+    * coût des arêtes vers les sommets de la zone = +INFINI
+    * @param zone
+    */
+   public void garder(int[] zone, int largeur) {
+	   for (int y = zone[1]; y < zone[3]; y ++) {
+		   for (int x = zone[0]; x < zone[2]; x ++) {
+			   for (Edge e : prev(y * largeur + x)) {
+				   e.cost = Integer.MAX_VALUE;
+			   }
+		   }
+	   }
+   }
+   
+   /**
+    * pour la gestion de pixels à supprimer
+    * coût des arêtes vers les sommets de la zone = -INFINI
+    * @param zone
+    */
+   public void supprimer(int[] zone, int largeur) {
+	   for (int y = zone[1]; y < zone[3]; y ++) {
+		   for (int x = zone[0]; x < zone[2]; x ++) {
+			   for (Edge e : prev(y * largeur + x)) {
+				   e.cost = Integer.MIN_VALUE;
+			   }
+		   }
+	   }
    }
    
 }
