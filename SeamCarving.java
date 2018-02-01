@@ -8,13 +8,13 @@ import modelisation.graphe.Graph;
 public class SeamCarving {
    
 	public final static int LARGEUR_MINI = 3;
-	public final static int LONGUEUR_MINI = 3;
+	public final static int HAUTEUR_MINI = 3;
 	
 	
     public SeamCarving(String source, String dest, int reduction) {
 	    int[][] img = Lecture.readpgm(source);
 	    int largeur = img[0].length;
-	   
+	    
 	    if (largeur - reduction < LARGEUR_MINI) {
 		    System.err.println("La largeur de la nouvelle image doit être au moins de " + LARGEUR_MINI);
 		    System.exit(1);
@@ -29,37 +29,31 @@ public class SeamCarving {
 	    Ecriture.writepgm(img, dest);	    
     }
    
-    public static int[][] interest(int[][] image) {
-	    int hauteur = image.length;
-	    int largeur = image[0].length;
-	    int pixels = hauteur * largeur;
+    public static int[][] interest(int[][] img) {
+	    int hauteur = img.length;
+	    int largeur = img[0].length;
+	    
+	    assert hauteur >= HAUTEUR_MINI;
+	    assert largeur >= LARGEUR_MINI;
+	    	    
 	    int[][] itr = new int[hauteur][largeur];
-	   
-	    for (int indice = 0; indice < pixels; indice ++) {
-		    int y = indice / largeur;
-		    int x = indice % largeur;		
-		    int valeur = image[y][x];				   
-		    int moyenne = 0;
-		   
-		    if (x > 0) {
-			    if (x < largeur - 1) {
-				    /* pixels à droite et à gauche */
-				    moyenne = (image[y][x - 1] + image[y][x + 1]) / 2;
+	    int moyenne = 0;
+	    	    
+	    for (int y = 0; y < hauteur; y ++) {
+	    	for (int x = 0; x < largeur; x ++) {
+	    		if (x == 0) {
+			    	moyenne = img[y][x + 1];
 			    }
-                else {
-            	    /* pixel gauche, pas de pixel droit */
-            	    moyenne = image[y][x - 1];
-                }
-		    }
-		    else {
-			    if (x < largeur - 1) {
-            	    /* pixel droit, pas de pixel gauche */	
-				    moyenne = image[y][x + 1];
+			    else if (x == largeur - 1) {
+			    	moyenne = img[y][x - 1];
 			    }
-		    }
-		   
-		    itr[y][x] = Math.abs(valeur - moyenne);
-	    }    
+			    else {
+			    	moyenne = (img[y][x - 1] + img[y][x + 1]) / 2;
+			    }
+			   
+			    itr[y][x] = Math.abs(img[y][x] - moyenne);
+	    	}
+	    }   
 	   
 	    return itr;
     }
@@ -72,16 +66,12 @@ public class SeamCarving {
     public static int[][] energie(int[][] image) {
 	    int hauteur = image.length;
 	    int largeur = image[0].length;
-	    int pixels = hauteur * largeur;
+	    
+	    assert hauteur >= HAUTEUR_MINI;
+	    assert largeur >= LARGEUR_MINI;
+	    
 	    int[][] itr = new int[hauteur][largeur];
-	   
-	    for (int indice = 0; indice < pixels; indice ++) {
-		    int y = indice / largeur;
-		    int x = indice % largeur;		
-		    int val = image[y][x];	
-		   
-	    }
-	   
+	   	   
 	    return itr;
     }
    
@@ -89,11 +79,15 @@ public class SeamCarving {
      * le sommet tout en haut est l'avant-dernier
      * celui tout en bas est le dernier
      * @param itr
-     * @return tableau itr en graphe
+     * @return itr en graphe
      */
     public static Graph tograph(int[][] itr) {
 	    int hauteur = itr.length;
 	    int largeur = itr[0].length;
+	    
+	    assert hauteur >= HAUTEUR_MINI;
+	    assert largeur >= LARGEUR_MINI;
+	    
 	    int pixels = hauteur * largeur;
 	    int source = pixels;
 	    int puits = pixels + 1;
@@ -132,24 +126,27 @@ public class SeamCarving {
 	   
 	    return g;
     }
-   
+    
     /**
      * @param img
-     * @return img réduite de 1 colonne, null si largeur trop petite
+     * @return img réduite de 1 colonne
      */
     public static int[][] reduction(int[][] img) {
 	    int hauteur = img.length;
 	    int largeur = img[0].length;
-	    int s = largeur * hauteur;
+	    	    
+	    assert hauteur >= HAUTEUR_MINI;
+	    assert largeur >= LARGEUR_MINI;
 	    
-	    /* déclaration de la nouvelle image */
-	    int[][] img2 = new int[hauteur][largeur - 1];
-	   
+	    int source = largeur * hauteur;
+	    int puits = source + 1;	    
+	    
+	    int[][] img2 = new int[hauteur][largeur - 1];	   
 	    int[][] itr = interest(img);	   
-	    Graph g = tograph(itr);
-	    ArrayList<Integer> chemin = g.dijkstra(s, s + 1);
+	    Graph g = tograph(itr);	    
+	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
 	   
-	    for (int i = 0; i < chemin.size(); i++) {
+	    for (int i = 0; i < chemin.size(); i ++) {
 		    int sommet = chemin.get(i);
 		   
 	        img[sommet / largeur][sommet % largeur] = -1;
@@ -157,9 +154,8 @@ public class SeamCarving {
 	   
 	    int pixel = 0;
 	   
-	    /* remplissage de la nouvelle image */
 	    for (int i = 0; i < hauteur; i ++) {
-	        for (int j = 0; j < largeur ; j ++) {
+	        for (int j = 0; j < largeur; j ++) {
 	    	    if (img[i][j] != -1) {	    		    
 	    		    img2[pixel / (largeur - 1)][pixel % (largeur - 1)] = img[i][j];
 	    		    pixel ++;

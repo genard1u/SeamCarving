@@ -150,14 +150,16 @@ public class Graph {
    /**
     * algorithme de Bellman-Ford
     * les sommets sont traités dans l'ordre du tri topologique
-    * @param sommet pour lequel on veut les distances
-    * @return tableau des parents, null si présence d'un cycle de coût négatif
+    * @param sommet pour lequel on veut les CCM
+    * @return parents, null si présence d'un cycle de coût négatif
     */
    public int[] bellman(int s) {
+	   assert s >= 0;
+	   assert s < vertices();
+	   
 	   int[] d = new int[vertices()];
 	   int[] p = new int[vertices()];
 	   
-	   /* initialise les tableaux des distances et des parents */
 	   for (int i = 0; i < vertices(); i++) {
 		   d[i] = Integer.MAX_VALUE;
 		   p[i] = -1;
@@ -170,7 +172,6 @@ public class Graph {
 	   for (int i = 0; i < vertices(); i++) {
 		   changement = false;
 		   
-		   /* on parcourt chaque arête */
 		   for (Edge e : edges(topo())) {
 			   if (d[e.to] > (d[e.from] + e.cost)) {
 				   d[e.to] = d[e.from] + e.cost;
