@@ -84,8 +84,49 @@ public class Test {
 		   int y = indice / largeur;
 		   int x = indice % largeur;
 		   
-		   assert interet[y][x] == retourInterest[y][x];
-	   }	  
+		   //assert interet[y][x] == retourInterest[y][x];
+		   if (interet[y][x] != retourInterest[y][x]) {
+			   System.out.println("interet["+y+"]["+x+"] : "+interet[y][x]);
+			   System.out.println("retourInterest["+y+"]["+x+"] : "+retourInterest[y][x]);
+		   }
+	   }
+	   System.out.println("Tout est bon");
+   }
+   
+   public static void testInterestLigne() {
+	   int image[][] = { {1,2,3,7},
+			             {4,5,6,5},
+			             {7,8,9,5}
+			           };
+	   
+	   int interet[][] = { {3,3,3,2}, 
+			               {0,0,0,1},
+			               {3,3,3,0}
+	                     };
+	   
+	   int retourInterest[][] = SeamCarving.interestLigne(image);
+	   
+	   compare(interet, retourInterest);
+	   Graph g=SeamCarving.tographLigne(retourInterest);
+	   g.writeFile("test.dot");
+   }
+   
+   public static void testCompletLigne(String source, String dest, int reduction) {
+	   int[][] img = Lecture.readpgm(source);
+	    int hauteur = img.length;
+	    
+	    if (hauteur - reduction < SeamCarving.LARGEUR_MINI) {
+		    System.err.println("La largeur de la nouvelle image doit être au moins de " + SeamCarving.LARGEUR_MINI);
+		    System.exit(1);
+	    }
+	   
+	    for (int i = 0; i < reduction; i ++) {
+		    img = SeamCarving.reductionLigne(img);   
+		    System.out.print(".");
+	    } 
+	   
+	    if (reduction > 0) System.out.println(); 
+	    Ecriture.writepgm(img, dest);	
    }
    
    public static void testInterest() {
@@ -226,7 +267,9 @@ public class Test {
    }
    
    public static void main(String[] args) {		
-	   testPPM(args[0]);
+	   //testPPM(args[0]);
+	   //testInterestLigne();
+	   testCompletLigne(args[0],args[1],10);
    }
 
 }

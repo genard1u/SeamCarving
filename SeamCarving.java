@@ -146,7 +146,7 @@ public class SeamCarving {
 	    return itr;
     }
     
-    public static int[][] interestCol(int[][] img) {
+    public static int[][] interestLigne(int[][] img) {
 	    int hauteur = img.length;
 	    int largeur = img[0].length;
 	    
@@ -170,7 +170,7 @@ public class SeamCarving {
 			   
 			    itr[y][x] = Math.abs(img[y][x] - moyenne);
 	    	}
-	    }   
+	    }
 	   
 	    return itr;
     }
@@ -307,6 +307,59 @@ public class SeamCarving {
     }
     
     /**
+     * sommet tout à gauche = avant-dernier
+     * celui tout en droite = dernier
+     * @param itr
+     * @return itr en graphe
+     */
+    public static Graph tographLigne(int[][] itr) {
+	    int hauteur = itr.length;
+	    int largeur = itr[0].length;
+	    
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
+	    
+	    int pixels = hauteur * largeur;
+	    int source = pixels;
+	    int puits = pixels + 1;
+	    int derniereRangee = pixels - hauteur;
+	    Graph g = new Graph(pixels + 2);
+	   
+	    for (int i = 0; i < hauteur; i ++) {
+		    g.addEdge(new Edge(source, i, 0));
+	    }
+	   
+	    for (int i = 0; i < derniereRangee; i ++) {
+	    	int x = i / hauteur;
+		    int y = i % hauteur;
+		   
+            if (y == 0) {
+            	g.addEdge(new Edge(i, i + hauteur, itr[y][x]));
+			    g.addEdge(new Edge(i, i + hauteur + 1, itr[y][x]));
+            }
+            else if (y == hauteur -1) {
+            	g.addEdge(new Edge(i, i + hauteur - 1, itr[y][x]));
+			    g.addEdge(new Edge(i, i + hauteur, itr[y][x]));
+            }
+            else {
+            	g.addEdge(new Edge(i, i + hauteur - 1, itr[y][x]));
+			    g.addEdge(new Edge(i, i + hauteur, itr[y][x]));
+			    g.addEdge(new Edge(i, i + hauteur + 1, itr[y][x]));
+            }  
+	    }
+	   
+	    for (int i = derniereRangee; i < pixels; i ++) {
+	    	//System.out.println(i);
+	    	int x = i / hauteur;
+		    int y = i % hauteur;	
+		   
+		    g.addEdge(new Edge(i, puits, itr[y][x]));
+	    }
+	   
+	    return g;
+    }
+    
+    /**
      * @param img
      * @return img réduite de 1 colonne
      */
@@ -340,6 +393,54 @@ public class SeamCarving {
 	    		    img2[pixel / (largeur - 1)][pixel % (largeur - 1)] = img[i][j];
 	    		    pixel ++;
 	    	    }	
+	        }
+	    }
+	   
+	    return img2;
+    }
+    
+    /**
+     * @param img
+     * @return img réduite de 1 ligne
+     */
+    public static int[][] reductionLigne(int[][] img) {
+	    int hauteur = img.length;
+	    int largeur = img[0].length;
+	    	    
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
+	  
+	    int source = largeur * hauteur;
+	    int puits = source + 1;	    
+	   	    	   
+	    int[][] itr = interestLigne(img);	   
+	    Graph g = tographLigne(itr);  
+	    /*Graph g = energie(img);*/
+	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
+	    
+	    for (int i = 0; i < chemin.size(); i ++) {
+		    int sommet = chemin.get(i);
+	        img[sommet % hauteur][sommet / hauteur] = -1;
+	    }    
+	    
+	   
+	    int[][] img2 = new int[hauteur-1][largeur];
+	    int pixel = 1;
+	   
+	    //int count=0;
+	    /*System.out.println("Hauteur :"+hauteur);
+	    System.out.println("Largeur :"+largeur);
+	    System.out.println(img[hauteur-1][largeur-1]);*/
+	    for (int i = 0; i < hauteur; i ++) {
+	        for (int j = 0; j < largeur; j ++) {
+	    	    if (img[i][j] != -1) {
+	    	    	/*System.out.println("pixel: "+pixel);
+	    	    	System.out.println(pixel / (hauteur - 1));*/
+	    	    	if (pixel < (hauteur * largeur -largeur)) {
+	    	    		img2[pixel % (hauteur - 1)][pixel / (hauteur - 1)] = img[i][j];
+	    	    		pixel ++;	    	    		
+	    	    	}
+	    	    }
 	        }
 	    }
 	   
