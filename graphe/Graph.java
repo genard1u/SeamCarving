@@ -96,7 +96,7 @@ public class Graph {
 			 writer.close();
 	   }
 	   catch (IOException e) {
-		   System.err.println("impossible d'écrire le fichier");
+		   System.err.println("Impossible d'écrire le fichier");
 		   System.exit(1);
 	   }						
    }
@@ -139,7 +139,7 @@ public class Graph {
 		   }
    	   }
    	   
-   	   /* On sait que l'on a bien V valeurs empilées */
+   	   /* nb valeurs empilées = nb de sommets */
    	   for (int i = 0; i < vertices() ; i++) {
    		   ordre[i] = pile.pop();
    	   }
@@ -150,14 +150,14 @@ public class Graph {
    /**
     * algorithme de Bellman-Ford
     * les sommets sont traités dans l'ordre du tri topologique
-    * @param sommet source
+    * @param sommet pour lequel on veut les distances
     * @return tableau des parents, null si présence d'un cycle de coût négatif
     */
    public int[] bellman(int s) {
 	   int[] d = new int[vertices()];
 	   int[] p = new int[vertices()];
 	   
-	   /* On initialise les tableaux des distances et des parents */
+	   /* initialise les tableaux des distances et des parents */
 	   for (int i = 0; i < vertices(); i++) {
 		   d[i] = Integer.MAX_VALUE;
 		   p[i] = -1;
@@ -170,7 +170,7 @@ public class Graph {
 	   for (int i = 0; i < vertices(); i++) {
 		   changement = false;
 		   
-		   /* On parcourt chaque arête */
+		   /* on parcourt chaque arête */
 		   for (Edge e : edges(topo())) {
 			   if (d[e.to] > (d[e.from] + e.cost)) {
 				   d[e.to] = d[e.from] + e.cost;
@@ -179,13 +179,13 @@ public class Graph {
 			   }
 		   }
 		   
-		   /* Le tableau des distances s'est stabilisé */
+		   /* le tableau des distances s'est stabilisé */
 		   if (changement == false) {
 			   return p;
 		   }
 	   }
 	   
-	   /* Le tableau a changé lors de la dernière itération = cycle négatif */
+	   /* le tableau a changé lors de la dernière itération = cycle négatif */
 	   return null;
    }
    

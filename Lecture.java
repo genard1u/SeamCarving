@@ -43,8 +43,7 @@ public class Lecture {
 		    }
 		   
 		    s.close();
-        } 
-		     
+        } 		     
         catch (Throwable t) {
             t.printStackTrace(System.err);
             System.exit(1);
