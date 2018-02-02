@@ -80,12 +80,6 @@ public class Lecture {
             	
             	s.close();
             } while (nb < 3);
-                       
-            for (int i = 0; i < 3; i ++) {
-            	System.out.print(h[i] + ", ");
-            }
-            
-            System.out.println();
             
             Scanner s = new Scanner(d);
  		    int width = h[0];

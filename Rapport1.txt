@@ -3,6 +3,9 @@ SeamCarving par Clément Bellanger et Pierre Génard
 Nous avons utilisé un dépôt Git pour travailler dont voici le lien:
 https://github.com/genard1u/SeamCarving
 
+Les images du premier rendu sont dans le dossier image/groupe/rendu1 (sur le dépôt)
+Il y en a plus que 2 en raison des différentes améliorations qui ont été réalisées.
+
 
 Répartition du travail:
 
@@ -12,12 +15,21 @@ Tous les tests ainsi que le débuggage ont été faits ensemble.
 Travail indépendant:
 - Clément:
     Suppression de lignes.
+      > il y a encore un problème avec la fonction reductionLigne
 - Pierre:
-    Q5 (fonction réduction, boucle sur réduction, traitement des arguments)
+    Q5
+      > fonction reduction, boucle sur reduction, traitement des arguments
     Tri topologique et son dfs utilisés en association avec Bellman.
+      > ok
     La fonction d'énergie avant.
+      > ok
     Gestion du format PPM P3.
-    Gestion des pixels qu'il faut forcément garder/supprimer. (on délimite une zone de pixels)
+      > je sépare le tableau de pixels en 3 tableaux R, G et B et, pour chacun, j'applique reduction
+      > intuitivement, si chaque composante est proche de ses voisines alors le pixel est proche de ses voisins
+      > la méthode donne de bons résultats
+    Gestion des pixels qu'il faut forcément garder/supprimer.
+      > ok, j'ai réussi à décapiter un chat et à le protéger
+      > il y a peut-être encore des erreurs, dépassement de capacité avec les infinis?
 
 
 Utilisation du logiciel:
@@ -32,7 +44,7 @@ java -jar src.pgm dest.pgm réduction g|s x1 y1 x2 y2
   > (x1, y1) --> coin haut gauche d'une zone rectangulaire
   > (x2, y2) --> coin bas droit d'une zone rectangulaire
 
-java -jar src.pgm dest.pgm l [réduction]
+java -jar src.pgm dest.pgm réduction l
   > réduction de lignes, on peut choisir le nombre de réductions (50 par défaut)
   
 java -jar src.ppm [dest.ppm] [réduction]

@@ -11,7 +11,7 @@ public class SeamCarving {
 	public final static int HAUTEUR_MINI = 3;
 	
 	
-    public SeamCarving(String source, String dest, int reduction) {
+    public static void defaut(String source, String dest, int reduction) {
 	    int[][] img = Lecture.readpgm(source);
 	    int largeur = img[0].length;
 	    
@@ -36,7 +36,7 @@ public class SeamCarving {
      * @param reduction
      * @param couleur
      */
-    public SeamCarving(String source, String dest, int reduction, boolean couleur) {
+    public static void couleur(String source, String dest, int reduction) {
     	int[][][] img = Lecture.readppm(source);
     	int hauteur = img.length;
 	    int largeur = img[0].length;
@@ -91,7 +91,7 @@ public class SeamCarving {
      * @param reduction
      * @param zone (coin haut gauche, coin bas droit)
      */
-    public SeamCarving(String source, String dest, int reduction, int[] zone) {
+    public static void zone(String source, String dest, int reduction, int[] zone, boolean garde) {
     	int[][] img = Lecture.readpgm(source);
     	int hauteur = img.length;
 	    int largeur = img[0].length;
@@ -109,7 +109,7 @@ public class SeamCarving {
 	    }
 	    
 	    for (int i = 0; i < reduction; i ++) {
-		    img = reduction(img, zone, false);   
+		    img = reduction(img, zone, garde);   
 		    System.out.print(".");
 	    } 
 	   
@@ -500,8 +500,6 @@ public class SeamCarving {
 	        } */
 	    }
 	    
-	    
-	    
 	    int[][] img2 = new int[hauteur][largeur - 1];
 	    int pixel = 0;
 	   
@@ -537,20 +535,107 @@ public class SeamCarving {
 	    return reduction;
     }
    
+    public static int[] zone(String[] args) {
+    	int[] zone = new int[4];
+    	
+    	for (int i = 4; i < 8; i++) {
+    		try {
+    			zone[i - 4] = Integer.parseInt(args[i]);
+    		}
+    		catch (NumberFormatException nfe) {
+    			System.err.println("La zone a des coordonnées non valides");
+    			System.exit(1);
+    		}
+    	}
+    	
+    	return zone;
+    }
+    
+    public static boolean garde(String arg) {
+    	boolean garde = true;
+    	
+    	if (arg.equals("g")) {
+    		garde = true;
+    	}
+    	else if (arg.equals("s")) {
+    		garde = false;
+    	}
+    	else {
+    		System.err.println("Il faut passer g ou s avant la zone pour le choix de la garde");
+    		System.exit(1);
+    	}
+    	
+    	return garde;
+    }
+    
+    public static void pgm(String[] args) {
+    	switch (args.length) {
+            case 1: 
+                defaut(args[0], args[0], 50);
+                break;
+            case 2:
+            	defaut(args[0], args[1], 50);
+                break;
+            case 3:
+            	defaut(args[0], args[1], reduction(args[2]));
+	            break;
+            case 4:
+            	Test.testCompletLigne(args[0], args[1], reduction(args[2]));
+        	    break;
+            case 8:
+            	zone(args[0], args[1], reduction(args[2]), zone(args), garde(args[3]));
+        	    break;
+	        default:
+		        nombreIncorrectArguments();
+        }
+    }
+    
+    public static void ppm(String[] args) {
+    	switch (args.length) {
+            case 1: 
+	            couleur(args[0], args[0], 50);
+	            break;
+            case 2:
+    	        couleur(args[0], args[1], 50);
+	            break;
+            case 3:
+		        couleur(args[0], args[1], reduction(args[2]));
+		        break;
+		    default:
+			    nombreIncorrectArguments();
+        } 
+    }
+    
+    public static void source(String[] args) {
+    	int i = args[0].lastIndexOf('.');
+    	
+    	if (i < 1) {
+    		System.err.println("Le premier argument n'est pas un nom de fichier source valide");
+    		System.exit(1);
+    	}
+    	
+    	String suffixe = args[0].substring(i);
+    	
+    	if (suffixe.equals(".pgm")) {
+    		pgm(args);
+    	}
+    	else if (suffixe.equals(".ppm")) {
+    		ppm(args);
+    	}
+    	else {
+    		System.err.println("Le fichier source doit être un pgm ou un ppm");
+    		System.exit(1);
+    	}
+    }
+    
     public static void main(String[] args) {
-	    switch (args.length) {
-	        case 1: 
-		        new SeamCarving(args[0], args[0], 50);
-		        break;
-	        case 2:
-	    	    new SeamCarving(args[0], args[1], 50);
-		        break;
-	        case 3:
-			    new SeamCarving(args[0], args[1], reduction(args[2]));
-			    break;
-			default:
-				nombreIncorrectArguments();
-	    } 
+    	switch (args.length) {
+    	    case 0:
+    		    nombreIncorrectArguments();
+    		    break;
+    		default:
+    	        source(args);
+    	}
     }
    
 }
