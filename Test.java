@@ -111,6 +111,25 @@ public class Test {
 	   g.writeFile("test.dot");
    }
    
+   public static void testInterestRemplissage() {
+	   int image[][] = { {7,1,3,5,-1},
+			   			 {3,-1,-1,-1,2},
+			             {-1,5,2,2,2},
+			             {2,4,1,3,5}
+			           };
+	   
+	   /*int interet[][] = { {3,3,3,2}, 
+			               {0,0,0,1},
+			               {3,3,3,0}
+	                     };
+	   
+	   int retourInterest[][] = SeamCarving.interestLigne(image);
+	   
+	   compare(interet, retourInterest);
+	   Graph g=SeamCarving.tographLigne(retourInterest);
+	   g.writeFile("test.dot");*/
+   }
+   
    public static void testCompletLigne(String source, String dest, int reduction) {
 	   int[][] img = Lecture.readpgm(source);
 	    int hauteur = img.length;
@@ -273,7 +292,7 @@ public class Test {
    public static void main(String[] args) {		
 	   //testPPM(args[0]);
 	   //testInterestLigne();
-	   testCompletLigne(args[0],args[1],10);
+	   testCompletLigne(args[0],args[1],100);
 	   //testZone(args[0], args[1]);
    }
 

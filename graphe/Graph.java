@@ -1,11 +1,11 @@
 package modelisation.graphe;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Stack;
 
 import modelisation.Heap;
-
-import java.io.*;
 
 public class Graph {
 	

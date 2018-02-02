@@ -425,21 +425,13 @@ public class SeamCarving {
 	    
 	   
 	    int[][] img2 = new int[hauteur-1][largeur];
-	    int pixel = 1;
-	   
-	    //int count=0;
-	    /*System.out.println("Hauteur :"+hauteur);
-	    System.out.println("Largeur :"+largeur);
-	    System.out.println(img[hauteur-1][largeur-1]);*/
-	    for (int i = 0; i < hauteur; i ++) {
-	        for (int j = 0; j < largeur; j ++) {
+	    int pixel = 0;
+
+	    for (int j = 0; j < largeur; j ++) {
+	    	for (int i = 0; i < hauteur; i ++) {
 	    	    if (img[i][j] != -1) {
-	    	    	/*System.out.println("pixel: "+pixel);
-	    	    	System.out.println(pixel / (hauteur - 1));*/
-	    	    	if (pixel < (hauteur * largeur -largeur)) {
-	    	    		img2[pixel % (hauteur - 1)][pixel / (hauteur - 1)] = img[i][j];
-	    	    		pixel ++;	    	    		
-	    	    	}
+    	    		img2[pixel % (hauteur - 1)][pixel / (hauteur - 1)] = img[i][j];
+    	    		pixel ++;	    	    		
 	    	    }
 	        }
 	    }
