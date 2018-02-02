@@ -467,19 +467,18 @@ public class SeamCarving {
 	    int source = largeur * hauteur;
 	    int puits = source + 1;	    
 	   	    	   
-	    /* int[][] itr = interest(img);	   
-	    Graph g = tograph(itr);  */
-	    Graph g = energie(img);
+	    int[][] itr = interest(img);	   
+	    Graph g = tograph(itr); 
 	    
+	    /* on place les bons coûts sur les arêtes de la zone */
 	    if (garde) {
 	        g.garder(zone, largeur);
 	    }
 	    else {
 	    	g.supprimer(zone, largeur);
-	    	zone[2]--;
 	    }
 	    	   
-	    ArrayList<Integer> chemin = g.dijkstra(source, puits);
+	    ArrayList<Integer> chemin = g.dijkstra(source, puits);	    
 	    
 	    for (int i = 0; i < chemin.size(); i ++) {
 		    int sommet = chemin.get(i);
@@ -487,18 +486,10 @@ public class SeamCarving {
 		    int x = sommet % largeur;
 		    
 	        img[y][x] = -1;
-	        
-	        /* à améliorer 
-	        if (garde) {
-	            if (zone[1] == y) {
-	        	    if (zone[0] > x) {
-	        		    décalage à gauche de la zone 
-	        		    zone[0] --;
-	        		    zone[2] --;
-	        	    }
-	            }
-	        } */
 	    }
+	    
+	    /* la zone est déplacée selon l'endroit où passe le chemin */
+	    decalage(img, zone, garde);
 	    
 	    int[][] img2 = new int[hauteur][largeur - 1];
 	    int pixel = 0;
@@ -515,12 +506,50 @@ public class SeamCarving {
 	    return img2;
     }
     
+    /**
+     * si le chemin passe à gauche de la zone, la zone doit bouger à gauche
+     * @param img
+     * @param zone
+     * @param garde
+     */
+    public static void decalage(int[][] img, int[] zone, boolean garde) {
+    	if (garde) { 
+	    	int largeur = img[0].length;
+	        int h = zone[1];
+	        int x = zone[0];
+	        int abs = -1; /* abscisse du sommet sur le chemin à la largeur h */
+	        int i = 0; /* compteur */
+	        
+	        while (i < largeur && abs == -1) {
+	        	if (img[h][i] == -1) {
+	        		abs = i; 
+	        	}
+	        	
+	        	i++;
+	        }
+	        
+	        if (abs < x) {
+	        	/* décalage à gauche de la zone */
+	        	zone[0] --;
+    		    zone[2] --;	        
+    		}	        
+	    }
+	    else {
+	    	zone[2] --;
+	    }
+    }
+    
     public static void nombreIncorrectArguments() {
 	    System.err.println("Nombre incorrect d'arguments");
         System.err.println("\tjava -jar SeamCarving.jar src.pgm [dest.pgm] [réduction]");
         System.exit(1);
     }
    
+    /**
+     * traite l'argument réduction passé dans la ligne de commande
+     * @param arg
+     * @return réduction (pixels)
+     */
     public static int reduction(String arg) {
 	    int reduction = 50;
 	   
