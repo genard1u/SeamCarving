@@ -1,0 +1,42 @@
+SeamCarving par Clément Bellanger et Pierre Génard
+
+Nous avons utilisé un dépôt Git pour travailler dont voici le lien:
+https://github.com/genard1u/SeamCarving
+
+
+Répartition du travail:
+
+Le travail fait ensemble comprend les 3 premières questions ainsi que les algorithmes de Bellman et de Dijkstra.
+Tous les tests ainsi que le débuggage ont été faits ensemble.
+
+Travail indépendant:
+- Clément:
+    Suppression de lignes.
+- Pierre:
+    Q5 (fonction réduction, boucle sur réduction, traitement des arguments)
+    Tri topologique et son dfs utilisés en association avec Bellman.
+    La fonction d'énergie avant.
+    Gestion du format PPM P3.
+    Gestion des pixels qu'il faut forcément garder/supprimer. (on délimite une zone de pixels)
+
+
+Utilisation du logiciel:
+
+java -jar src.pgm [dest.pgm] [réduction]
+  > java -jar src.pgm --> écrit une nouvelle src.pgm réduite de 50 pixels par ligne si tout se passe bien
+  > java -jar src.pgm dest.pgm --> même chose mais l'écriture est faite dans dest.pgm
+  > java -jar src.pgm dest.pgm réduction --> on peut choisir le nombre de réductions
+  
+java -jar src.pgm dest.pgm réduction g|s x1 y1 x2 y2
+  > g|s --> garder ou supprimer ce qu'il y a dans la zone rectangulaire
+  > (x1, y1) --> coin haut gauche d'une zone rectangulaire
+  > (x2, y2) --> coin bas droit d'une zone rectangulaire
+
+java -jar src.pgm dest.pgm l [réduction]
+  > réduction de lignes, on peut choisir le nombre de réductions (50 par défaut)
+  
+java -jar src.ppm [dest.ppm] [réduction]
+  > java -jar src.ppm --> écrit une nouvelle src.ppm réduite de 50 pixels par ligne si tout se passe bien
+  > java -jar src.ppm dest.ppm --> même chose mais l'écriture est faite dans dest.ppm
+  > java -jar src.ppm dest.ppm réduction --> on peut choisir le nombre de réductions
+ 
