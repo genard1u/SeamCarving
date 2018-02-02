@@ -15,7 +15,7 @@ Tous les tests ainsi que le débuggage ont été faits ensemble.
 Travail indépendant:
 - Clément:
     Suppression de lignes.
-      > il y a encore un problème avec la fonction reductionLigne
+
 - Pierre:
     Q5
       > fonction reduction, boucle sur reduction, traitement des arguments
