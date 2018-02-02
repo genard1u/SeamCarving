@@ -280,15 +280,16 @@ public class Test {
    }
    
    public static void testPPM(String source, String dest) {
-	   new SeamCarving(source, dest, 50, true);
+	   SeamCarving.couleur(source, dest, 50);
    }
    
    public static void testZone(String source, String dest) {
 	   int[] zone = {100, 80, 460, 300};
 	   
-	   new SeamCarving(source, dest, 320, zone);
+	   SeamCarving.zone(source, dest, 320, zone, true);
    }
    
+
    public static void main(String[] args) {		
 	   //testPPM(args[0]);
 	   //testInterestLigne();

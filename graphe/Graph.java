@@ -42,23 +42,6 @@ public class Graph {
    public Iterable<Edge> adj(int v) {
        return adj[v];
    }      
-
-   /**
-    * pour la gestion de pixels à garder ou à supprimer
-    * @param v
-    * @return
-    */
-   public Iterable<Edge> prev(int v) {
-	   ArrayList<Edge> n = new ArrayList<Edge>();
-	   
-	   for (Edge e : adj(v)) {
-		   if (e.from != v) {
-			   n.add(e);
-		   }
-	   }
-	   
-	   return n;
-   }
    
    public Iterable<Edge> next(int v) {
 	   ArrayList<Edge> n = new ArrayList<Edge>();
@@ -217,6 +200,8 @@ public class Graph {
 	   int[] p = bellman(s);
        int emprunte = t;
 	   
+       /* pour l'instant, on suppose qu'il y a bel et bien un chemin de s à t
+          on suppose que le graphe est un DAG */
        while (p[emprunte] != s) {
 		   emprunte = p[emprunte];
 		   chemin.add(emprunte);
@@ -270,6 +255,8 @@ public class Graph {
 	   int[] p = dijkstra(s);
        int emprunte = t;
 	   
+       /* pour l'instant, on suppose qu'il y a bel et bien un chemin de s à t
+          on suppose que le graphe est un DAG */
        while (p[emprunte] != s) {
 		   emprunte = p[emprunte];
 		   chemin.add(emprunte);
@@ -286,7 +273,7 @@ public class Graph {
    public void garder(int[] zone, int largeur) {
 	   for (int y = zone[1]; y < zone[3]; y ++) {
 		   for (int x = zone[0]; x < zone[2]; x ++) {
-			   for (Edge e : prev(y * largeur + x)) {
+			   for (Edge e : next(y * largeur + x)) {
 				   e.cost = Integer.MAX_VALUE;
 			   }
 		   }
@@ -295,18 +282,14 @@ public class Graph {
    
    /**
     * pour la gestion de pixels à supprimer
-    * coût des arêtes vers les sommets de la zone = -INFINI
+    * coût des arêtes vers les sommets de la zone = - INFINI
     * @param zone
     */
    public void supprimer(int[] zone, int largeur) {
 	   for (int y = zone[1]; y < zone[3]; y ++) {
 		   for (int x = zone[0]; x < zone[2]; x ++) {
-			   for (Edge e : prev(y * largeur + x)) {
-				   e.cost = -10000;
-			   }
-			   
 			   for (Edge e : next(y * largeur + x)) {
-				   e.cost = -10000;
+				   e.cost = - Integer.MIN_VALUE;
 			   }
 		   }
 	   }
