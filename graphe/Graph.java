@@ -167,27 +167,31 @@ public class Graph {
 
 	   d[s] = 0;
 	   
-	   boolean changement;
+	   int modifie = 0;
+	   int i = 0;
 	   
-	   for (int i = 0; i < vertices(); i++) {
-		   changement = false;
+	   while (i < vertices() && modifie != -1) {
+		   modifie = -1;
 		   
 		   for (Edge e : edges(topo())) {
 			   if (d[e.to] > (d[e.from] + e.cost)) {
 				   d[e.to] = d[e.from] + e.cost;
 				   p[e.to] = e.from;
-				   changement = true;
+				   modifie = e.from;
 			   }
 		   }
 		   
-		   /* le tableau des distances s'est stabilisé */
-		   if (changement == false) {
-			   return p;
-		   }
+		   i ++;
 	   }
 	   
-	   /* le tableau a changé lors de la dernière itération = cycle négatif */
-	   return null;
+	   if (modifie != -1) {
+		   /* cycle négatif */
+		   return null;
+	   }
+	   else {
+		   /* d s'est stabilisé */
+		   return p;
+	   }
    }
    
    /**
@@ -289,7 +293,7 @@ public class Graph {
 	   for (int y = zone[1]; y < zone[3]; y ++) {
 		   for (int x = zone[0]; x < zone[2]; x ++) {
 			   for (Edge e : next(y * largeur + x)) {
-				   e.cost = - Integer.MIN_VALUE;
+				   e.cost = Integer.MIN_VALUE;
 			   }
 		   }
 	   }

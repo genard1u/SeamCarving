@@ -290,11 +290,10 @@ public class Test {
    }
    
 
-   public static void main(String[] args) {		
-	   //testPPM(args[0]);
-	   //testInterestLigne();
-	   testCompletLigne(args[0],args[1],100);
-	   //testZone(args[0], args[1]);
+   public static void main(String[] args) {	
+	   // testInterestLigne();
+	   // testCompletLigne(args[0],args[1],100);
+	   testBellman();
    }
 
 }
