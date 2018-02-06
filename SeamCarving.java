@@ -188,11 +188,11 @@ public class SeamCarving {
 	    assert hauteur > HAUTEUR_MINI;
 	    assert largeur > LARGEUR_MINI;
 	    
-	    int pixels = hauteur * largeur;
-	    int source = pixels;
-	    int puits = pixels + 1;
-	    int derniereRangee = pixels - largeur;
-	    Graph g = new Graph(pixels + 2);
+	    int taille = hauteur * largeur;
+	    int source = taille;
+	    int puits = taille + 1;
+	    int derniere = taille - largeur;
+	    Graph g = new Graph(taille + 2);
 	   	
 	    for (int i = 0; i < largeur; i ++) {
 		    g.addEdge(new Edge(source, i, 0));
@@ -202,7 +202,7 @@ public class SeamCarving {
 	    int milieu = 0;
 	    int droite = 0;
 	    
-	    for (int p = 0; p < derniereRangee; p ++) {
+	    for (int p = 0; p < derniere; p ++) {
 		    int i = p / largeur;
 		    int j = p % largeur;
 		    		    
@@ -231,7 +231,7 @@ public class SeamCarving {
             }  
 	    }
 	   	
-	   	for (int i = derniereRangee; i < pixels; i ++) {
+	   	for (int i = derniere; i < taille; i ++) {
 	   		int y = i / largeur;
 		    int x = i % largeur;
 		    int cout = 0;
@@ -267,17 +267,17 @@ public class SeamCarving {
 	    assert hauteur > HAUTEUR_MINI;
 	    assert largeur > LARGEUR_MINI;
 	    
-	    int pixels = hauteur * largeur;
-	    int source = pixels;
-	    int puits = pixels + 1;
-	    int derniereRangee = pixels - largeur;
-	    Graph g = new Graph(pixels + 2);
+	    int taille = hauteur * largeur;
+	    int source = taille;
+	    int puits = taille + 1;
+	    int derniere = taille - largeur;
+	    Graph g = new Graph(taille + 2);
 	   
 	    for (int i = 0; i < largeur; i ++) {
 		    g.addEdge(new Edge(source, i, 0));
 	    }
 	   
-	    for (int i = 0; i < derniereRangee; i ++) {
+	    for (int i = 0; i < derniere; i ++) {
 		    int y = i / largeur;
 		    int x = i % largeur;
 		   
@@ -296,7 +296,7 @@ public class SeamCarving {
             }  
 	    }
 	   
-	    for (int i = derniereRangee; i < pixels; i ++) {
+	    for (int i = derniere; i < taille; i ++) {
 		    int y = i / largeur;
 		    int x = i % largeur;
 		   
@@ -356,6 +356,85 @@ public class SeamCarving {
 		    g.addEdge(new Edge(i, puits, itr[y][x]));
 	    }
 	   
+	    return g;
+    }
+    
+    /**
+     * sommet tout en haut = avant-dernier
+     * celui tout en bas = dernier
+     * @param itr
+     * @return itr en graphe
+     */
+    public static Graph tograph2(int[][] itr) {
+    	int hauteur = itr.length;
+	    int largeur = itr[0].length;
+	    
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
+	       	    	
+	    int taille = hauteur * largeur;
+	    int derniere = taille - largeur;
+	    
+	    int sommets = (hauteur - 1) * largeur * 2 + 2;	    	    
+	    int source = sommets - 2;
+	    int puits = sommets - 1;
+	    Graph g = new Graph(sommets);
+	    
+	    for (int i = 0; i < largeur; i ++) {
+		    g.addEdge(new Edge(source, i, 0));
+	    }
+	    
+	    for (int i = 0; i < largeur; i ++) {
+	    	int y = i / largeur;
+		    int x = i % largeur;
+		    
+	    	if (x == 0) {
+            	g.addEdge(new Edge(i, i + largeur, itr[y][x]));
+			    g.addEdge(new Edge(i, i + largeur + 1, itr[y][x]));
+            }
+            else if (x == largeur -1) {
+            	g.addEdge(new Edge(i, i + largeur - 1, itr[y][x]));
+			    g.addEdge(new Edge(i, i + largeur, itr[y][x]));
+            }
+            else {
+            	g.addEdge(new Edge(i, i + largeur - 1, itr[y][x]));
+			    g.addEdge(new Edge(i, i + largeur, itr[y][x]));
+			    g.addEdge(new Edge(i, i + largeur + 1, itr[y][x]));
+            }
+	    }
+	    
+	    for (int y = 1; y < hauteur -1; y ++) {
+	    	int b1 = 2 * y * largeur - largeur; 
+	    	int b2 = b1 + largeur; 
+	    	
+	    	for (int x = 0; x < largeur; x ++, b2 ++) {
+	    		g.addEdge(new Edge(b1 + x, b1 + x + largeur, 0));
+	    			    		
+	    		if (x == 0) {
+	            	g.addEdge(new Edge(b2, b2 + largeur, itr[y][x]));
+				    g.addEdge(new Edge(b2, b2 + largeur + 1, itr[y][x]));
+	            }
+	            else if (x == largeur -1) {
+	            	g.addEdge(new Edge(b2, b2 + largeur - 1, itr[y][x]));
+				    g.addEdge(new Edge(b2, b2 + largeur, itr[y][x]));
+	            }
+	            else {
+	            	g.addEdge(new Edge(b2, b2 + largeur - 1, itr[y][x]));
+				    g.addEdge(new Edge(b2, b2 + largeur, itr[y][x]));
+				    g.addEdge(new Edge(b2, b2 + largeur + 1, itr[y][x]));
+	            }  	    		
+	    	}
+	    } 
+	    
+	    int b = sommets - largeur - 2;
+	    
+	    for (int i = derniere; i < taille; i ++) {
+		    int y = i / largeur;
+		    int x = i % largeur;
+		   
+		    g.addEdge(new Edge(b + x, puits, itr[y][x]));
+	    }
+	    
 	    return g;
     }
     

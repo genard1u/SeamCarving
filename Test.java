@@ -118,7 +118,7 @@ public class Test {
 			             {2,4,1,3,5}
 			           };
 	   
-	   /*int interet[][] = { {3,3,3,2}, 
+	   int interet[][] = { {3,3,3,2}, 
 			               {0,0,0,1},
 			               {3,3,3,0}
 	                     };
@@ -126,8 +126,8 @@ public class Test {
 	   int retourInterest[][] = SeamCarving.interestLigne(image);
 	   
 	   compare(interet, retourInterest);
-	   Graph g=SeamCarving.tographLigne(retourInterest);
-	   g.writeFile("test.dot");*/
+	   Graph g = SeamCarving.tographLigne(retourInterest);
+	   g.writeFile("test.dot");
    }
    
    public static void testCompletLigne(String source, String dest, int reduction) {
@@ -289,11 +289,22 @@ public class Test {
 	   SeamCarving.zone(source, dest, 320, zone, true);
    }
    
-
+   public static void testTograph2() {
+	   int itr[][] = { {8, 2, 1, 15}, 
+                       {13, 3, 1, 10},
+                       {140, 52, 5, 25},
+                       {1, 2, 3, 4}
+                     };	   
+	   
+       Graph g = SeamCarving.tograph2(itr);
+	   
+	   g.writeFile("test.dot");
+   }
+   
    public static void main(String[] args) {	
 	   // testInterestLigne();
 	   // testCompletLigne(args[0],args[1],100);
-	   testBellman();
+	   testTograph2();
    }
 
 }

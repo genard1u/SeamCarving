@@ -25,7 +25,6 @@ Travail indépendant:
       > ok
     Gestion du format PPM P3.
       > je sépare le tableau de pixels en 3 tableaux R, G et B et, pour chacun, j'applique reduction
-      > intuitivement, si chaque composante est proche de ses voisines alors le pixel est proche de ses voisins
       > la méthode donne de bons résultats
     Gestion des pixels qu'il faut forcément garder/supprimer.
       > ok, j'ai réussi à décapiter un chat puis à sauver sa tête
