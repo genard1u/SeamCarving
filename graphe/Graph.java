@@ -174,7 +174,10 @@ public class Graph {
 		   modifie = -1;
 		   
 		   for (Edge e : edges(topo())) {
-			   if (d[e.to] > (d[e.from] + e.cost)) {
+			   long x = d[e.to];
+			   long y = d[e.from] + e.cost;
+			   
+			   if (x > y) {
 				   d[e.to] = d[e.from] + e.cost;
 				   p[e.to] = e.from;
 				   modifie = e.from;
@@ -238,7 +241,10 @@ public class Graph {
 		   
 		   for (Edge e : next(min)) {
 			   if (!v[e.to]) {
-				   if (H.priority(e.to) > e.cost + H.priority(e.from)) {
+				   long x = H.priority(e.to);
+				   long y = e.cost + H.priority(e.from);
+				   
+				   if (x > y) {
 					   H.decreaseKey(e.to, e.cost + H.priority(e.from));	
 					   p[e.to] = e.from;
 				   }
