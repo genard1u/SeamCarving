@@ -15,8 +15,13 @@ java -jar SeamCarving.jar src.pgm [dest.pgm] [réduction]
 
 ### Des extras
 ```bash
+# zone rectangulaire que l'on doit garder (g) ou supprimer (s)
 java -jar SeamCarving.jar src.pgm dest.pgm réduction g|s x1 y1 x2 y2
+
+# réduction de lignes
 java -jar SeamCarving.jar src.pgm dest.pgm réduction l
+
+# augmentation de colonnes
 java -jar SeamCarving.jar src.pgm dest.pgm augmentation a
 ```
 
@@ -45,4 +50,4 @@ dot -Tsvg test.dot > test.svg
 
 ## Feuille de route
 - **Première partie** --> Vendredi 2 Février 20:00
-- **Deuxième partie** --> 2 Mars
+- **Deuxième partie** --> Samedi 3 Mars 20:00
