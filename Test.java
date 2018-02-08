@@ -272,11 +272,8 @@ public class Test {
 	   System.out.print("\tchemin2 : ");
 	   
 	   ArrayList<Integer> chemin = g.dijkstra(source, source + 1);
-	   for (int i = 0; i < chemin.size(); i++) {
-		   System.out.print(chemin.get(i) + ", ");
-	   }
 	   
-	   System.out.println();
+	   afficherChemin(chemin);
    }
    
    public static void testPPM(String source, String dest) {
@@ -286,7 +283,7 @@ public class Test {
    public static void testZone(String source, String dest) {
 	   int[] zone = {100, 80, 460, 300};
 	   
-	   SeamCarving.zone(source, dest, 320, zone, true);
+	   SeamCarving.zone(source, dest, 320, true, zone);
    }
    
    public static void testTograph2() {
@@ -301,10 +298,32 @@ public class Test {
 	   g.writeFile("test.dot");
    }
    
+   public static void afficherChemin(ArrayList<Integer> chemin) {
+	   for (int i = 0; i < chemin.size(); i++) {
+		   System.out.print(chemin.get(i) + ", ");
+	   }
+	   
+	   System.out.println();
+   }
+   
+   public static void testEdge() {
+	   int itr[][] = { {1, 2, 3, 4},
+			           {8, 2, 1, 15}, 
+                       {13, 3, 1, 10},
+                       {140, 52, 5, 25},                       
+       };	   
+
+       Graph g = SeamCarving.tograph(itr);
+       
+       g.writeFile("test.dot");
+       
+       assert g.edge(0, 4) != null;
+       assert g.edge(4, 8) != null;
+       assert g.edge(0, 8) == null;
+   }
+   
    public static void main(String[] args) {	
-	   // testInterestLigne();
-	   // testCompletLigne(args[0],args[1],100);
-	   testTograph2();
+	   testEdge();
    }
 
 }

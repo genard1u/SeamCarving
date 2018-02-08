@@ -1,0 +1,8 @@
+SeamCarving par Clément Bellanger et Pierre Génard
+
+Nous avons utilisé un dépôt Git pour travailler dont voici le lien:
+https://github.com/genard1u/SeamCarving
+
+Les images de ce second rendu sont dans le dossier image/groupe/rendu2 (sur le dépôt)
+Toutes les améliorations ont été réalisées.
+

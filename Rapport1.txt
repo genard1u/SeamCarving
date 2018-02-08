@@ -45,8 +45,11 @@ java -jar SeamCarving.jar src.pgm dest.pgm réduction g|s x1 y1 x2 y2
 
 java -jar SeamCarving.jar src.pgm dest.pgm réduction l
   > réduction de lignes, on peut choisir le nombre de réductions (50 par défaut)
+
+java -jar SeamCarving.jar src.pgm dest.pgm augmentation a
+  > augmentation de la largeur, on peut choisi le nombre de colonnes en plus (50 par défaut)
   
-java -jar src.ppm [dest.ppm] [réduction]
+java -jar SeamCarving.jar src.ppm [dest.ppm] [réduction]
   > java -jar SeamCarving.jar src.ppm --> écrit une nouvelle src.ppm réduite de 50 pixels par ligne si tout se passe bien
   > java -jar SeamCarving.jar src.ppm dest.ppm --> même chose mais l'écriture est faite dans dest.ppm
   > java -jar SeamCarving.jar src.ppm dest.ppm réduction --> on peut choisir le nombre de réductions

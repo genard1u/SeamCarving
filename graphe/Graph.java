@@ -43,6 +43,17 @@ public class Graph {
        return adj[v];
    }      
    
+   public Iterable<Edge> prev(int v) {
+	   ArrayList<Edge> n = new ArrayList<Edge>();
+		
+	   for (Edge e : adj(v)) {
+		  if (e.from != v)
+			n.add(e);
+	   }
+	   
+	   return n;
+   }
+   
    public Iterable<Edge> next(int v) {
 	   ArrayList<Edge> n = new ArrayList<Edge>();
 		
@@ -53,6 +64,16 @@ public class Graph {
 	   
 	   return n;
    }      
+   
+   public Edge edge(int from, int to) {
+	   for (Edge e : next(from)) {
+		   if (e.to == to) {
+			   return e;
+		   }
+	   }
+	   
+	   return null;
+   }
    
    public Iterable<Edge> edges() {
 		ArrayList<Edge> list = new ArrayList<Edge>();
@@ -175,7 +196,7 @@ public class Graph {
 		   
 		   for (Edge e : edges(topo())) {
 			   long x = d[e.to];
-			   long y = d[e.from] + e.cost;
+			   long y = ((long) d[e.from]) + ((long) e.cost);
 			   
 			   if (x > y) {
 				   d[e.to] = d[e.from] + e.cost;
@@ -242,7 +263,7 @@ public class Graph {
 		   for (Edge e : next(min)) {
 			   if (!v[e.to]) {
 				   long x = H.priority(e.to);
-				   long y = e.cost + H.priority(e.from);
+				   long y = ((long) e.cost) + ((long) H.priority(e.from));
 				   
 				   if (x > y) {
 					   H.decreaseKey(e.to, e.cost + H.priority(e.from));	
@@ -283,7 +304,7 @@ public class Graph {
    public void garder(int[] zone, int largeur) {
 	   for (int y = zone[1]; y < zone[3]; y ++) {
 		   for (int x = zone[0]; x < zone[2]; x ++) {
-			   for (Edge e : next(y * largeur + x)) {
+			   for (Edge e : prev(y * largeur + x)) {
 				   e.cost = Integer.MAX_VALUE;
 			   }
 		   }
@@ -298,10 +319,52 @@ public class Graph {
    public void supprimer(int[] zone, int largeur) {
 	   for (int y = zone[1]; y < zone[3]; y ++) {
 		   for (int x = zone[0]; x < zone[2]; x ++) {
-			   for (Edge e : next(y * largeur + x)) {
+			   for (Edge e : prev(y * largeur + x)) {
 				   e.cost = Integer.MIN_VALUE;
 			   }
 		   }
+	   }
+   }
+   
+   /**
+    * fonction auxiliaire utilisée dans les tograph 
+    * (pour la suppression de colonnes)
+    * @param itr
+    * @param base
+    * @param bout
+    * @param y
+    * @param x
+    */
+   public void addEdges(int[][] itr, int base, int bout, int x, int y) {
+	   if (x == 0) {
+           addEdge(new Edge(base, base + bout, itr[y][x]));
+		   addEdge(new Edge(base, base + bout + 1, itr[y][x]));
+       }
+       else if (x == bout -1) {
+       	   addEdge(new Edge(base, base + bout - 1, itr[y][x]));
+		   addEdge(new Edge(base, base + bout, itr[y][x]));
+       }
+       else {
+       	   addEdge(new Edge(base, base + bout - 1, itr[y][x]));
+		   addEdge(new Edge(base, base + bout, itr[y][x]));
+		   addEdge(new Edge(base, base + bout + 1, itr[y][x]));
+       }
+   }
+   
+   /**
+    * mettre les arêtes du chemin à +INFINI
+    * @param chemin
+    */
+   public void garder(ArrayList<Integer> chemin) {
+	   for (int i = chemin.size() - 1; i > 0; i --) {
+		   int from = chemin.get(i);
+		   int to = chemin.get(i - 1);
+		   
+		   Edge e = edge(from, to);
+		   
+		   assert e != null;
+		   
+		   e.cost = Integer.MAX_VALUE;
 	   }
    }
    

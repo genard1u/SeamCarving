@@ -1,11 +1,28 @@
 # SeamCarving
 
+## A quoi ça sert?
+Logiciel qui permet de diminuer la taille d'une image en supprimant progressivement des colonnes "inutiles".
+
 ## Auteurs
 Clément Bellanger, Pierre Génard
 
 ## Lancement
+
+### La base
 ```bash
 java -jar SeamCarving.jar src.pgm [dest.pgm] [réduction]
+```
+
+### Des extras
+```bash
+java -jar SeamCarving.jar src.pgm dest.pgm réduction g|s x1 y1 x2 y2
+java -jar SeamCarving.jar src.pgm dest.pgm réduction l
+java -jar SeamCarving.jar src.pgm dest.pgm augmentation a
+```
+
+### Un peu de couleur
+```bash
+java -jar SeamCarving.jar src.ppm [dest.ppm] [réduction]
 ```
 
 ## Représentation d'un graphe
