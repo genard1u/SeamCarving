@@ -10,13 +10,16 @@ Clément Bellanger, Pierre Génard
 
 ### La base
 ```bash
+# par défaut, dest.pgm = src.pgm, réduction = 50
 java -jar SeamCarving.jar src.pgm [dest.pgm] [réduction]
 ```
 
 ### Des extras
 ```bash
 # zone rectangulaire que l'on doit garder (g) ou supprimer (s)
-java -jar SeamCarving.jar src.pgm dest.pgm réduction g|s x1 y1 x2 y2
+# (x1, y1) coin haut gauche 
+# (x2, y2) coin bas droit
+java -jar SeamCarving.jar src.pgm dest.pgm réduction [gs] x1 y1 x2 y2
 
 # réduction de lignes
 java -jar SeamCarving.jar src.pgm dest.pgm réduction l
@@ -27,6 +30,7 @@ java -jar SeamCarving.jar src.pgm dest.pgm augmentation a
 
 ### Un peu de couleur
 ```bash
+# par défaut, dest.ppm = src.ppm, réduction = 50
 java -jar SeamCarving.jar src.ppm [dest.ppm] [réduction]
 ```
 
