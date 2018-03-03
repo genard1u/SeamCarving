@@ -409,19 +409,15 @@ public class Test {
    
    public static void testReduction2() {
 	   int[][] img = Lecture.readpgm("test.pgm");
-	    int largeur = img[0].length;
+	   int largeur = img[0].length;
 	   
 	    img = SeamCarving.reduction2(img);
 	   
 	    Ecriture.writepgm(img, "test_O.pgm");
-	   
    }
    
    public static void main(String[] args) {	
-	   //testInverseCCM();
 	   testReduction2();
-	   //testBellman();
-	   //testModifiePoids();
    }
 
 }

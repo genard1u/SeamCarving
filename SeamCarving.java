@@ -538,13 +538,12 @@ public class SeamCarving {
 	    int source = largeur * hauteur;
 	    int puits = source + 1;	       	    	   
 	    Graph g = tograph2(img);
-	    ArrayList<Integer> chemin = g.twopath(source, puits)[0];
+	    ArrayList<Integer> chemin = g.twopath(source, puits);
 	    
 	    for (int i = 0; i < chemin.size(); i ++) {
 		    int sommet = chemin.get(i);
-		    if ((sommet != g.vertices()-1) &&(sommet != g.vertices()-2)) {
-		    	img[sommet / largeur][sommet % largeur] = -1;		    	
-		    }
+		    	
+		    img[sommet / largeur][sommet % largeur] = -1;	
 	    }
 	   
 	    int[][] img2 = new int[hauteur][largeur - 2];

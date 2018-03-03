@@ -399,7 +399,6 @@ public class Graph {
    public int[] bellman(int s, int[] d) {
 	   assert s >= 0;
 	   assert s < vertices();
-	   assert d.length == vertices();
 	   
 	   int[] p = new int[vertices()];
 	   
@@ -410,34 +409,27 @@ public class Graph {
 
 	   d[s] = 0;
 	   
-	   int modifie = 0;
-	   int i = 0;
+	   boolean changement;
 	   
-	   while (i < vertices() && modifie != -1) {
-		   modifie = -1;
+	   for (int i = 0; i < vertices(); i++) {
+		   changement = false;
 		   
 		   for (Edge e : edges(topo())) {
-			   long x = d[e.to];
-			   long y = ((long) d[e.from]) + ((long) e.cost);
-			   
-			   if (x > y) {
+			   if (d[e.to] > (d[e.from] + e.cost)) {
 				   d[e.to] = d[e.from] + e.cost;
 				   p[e.to] = e.from;
-				   modifie = e.from;
+				   changement = true;
 			   }
 		   }
 		   
-		   i ++;
+		   /* le tableau des distances s'est stabilisé */
+		   if (changement == false) {
+			   return p;
+		   }
 	   }
 	   
-	   if (modifie != -1) {
-		   /* cycle négatif */
-		   return null;
-	   }
-	   else {
-		   /* d s'est stabilisé */
-		   return p;
-	   }
+	   /* le tableau a changé lors de la dernière itération = cycle négatif */
+       return null;
    }
    
    public void modifiePoids(int[] d) {
@@ -499,6 +491,39 @@ public class Graph {
 	   return trouve;
    }
    
+   public int[] dijkstra(int s, int[] d) {
+	   Heap H = new Heap(vertices());
+	   boolean[] v = new boolean[vertices()];
+	   int[] p = new int[vertices()];
+	   	   
+	   for (int i = 0; i < vertices(); i++) {
+		   v[i] = false;
+		   p[i] = -1;
+	   }
+	   
+	   H.decreaseKey(s, 0);
+	   
+	   for (int i = 0; i < vertices(); i++) {
+		   int min = H.pop();
+		   
+		   v[min] = true;
+		   
+		   for (Edge e : next(min)) {
+			   if (!v[e.to]) {
+				   long x = H.priority(e.to);
+				   long y = ((long) e.cost) + ((long) H.priority(e.from));
+				   
+				   if (x > y) {
+					   H.decreaseKey(e.to, e.cost + H.priority(e.from));	
+					   p[e.to] = e.from;
+				   }
+			   }
+		   }
+	   }
+	   
+	   return p;
+   }
+   
    public ArrayList<Integer> twopath(int s, int t) {
 	   ArrayList<Integer> premier = new ArrayList<Integer>();
 	   ArrayList<Integer> deuxieme = new ArrayList<Integer>();
@@ -508,7 +533,7 @@ public class Graph {
 	   
 	   /* contient les sommets d'un premier ccm entre s et t */
 	   /* remplit aussi d avec les ccm pour chaque sommet */
-	   int[] p = bellman(s, d);
+	   int[] p = dijkstra(s, d);
 	   
 	   assert p != null;
 	   
