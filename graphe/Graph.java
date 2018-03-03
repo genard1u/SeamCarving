@@ -422,8 +422,34 @@ public class Graph {
    }
    
    public void inverseCCM(ArrayList<Integer> ccm) {
-	   
+	   for (int i=1;i<ccm.size();i++) {
+		   int sommet1Arrete=ccm.get(i-1);
+		   int sommet2Arrete=ccm.get(i);
+		   
+		   ArrayList<Edge> sommet1arretes=adj[sommet1Arrete];
+		   ArrayList<Edge> sommet2arretes=adj[sommet2Arrete];
+		   
+		   for (int j=0;j<sommet1arretes.size();j++) {
+			   Edge e=sommet1arretes.get(j);
+			   if (e.from == sommet1Arrete && e.to == sommet2Arrete) {
+				   int temp=e.from;
+				   e.from=e.to;
+				   e.to=temp;
+			   }
+		   }
+		   
+		   for (int j=0;j<sommet2arretes.size();j++) {
+			   Edge e=sommet2arretes.get(j);
+			   if (e.from == sommet1Arrete && e.to == sommet2Arrete) {
+				   int temp=e.from;
+				   e.from=e.to;
+				   e.to=temp;
+			   }
+		   }
+	   }
    }
+   
+   
    
    public ArrayList<Integer>[] twopath(int s, int t) {
 	   /* nos deux ccm qui seront à retirer */
