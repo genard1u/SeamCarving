@@ -322,8 +322,18 @@ public class Test {
        assert g.edge(0, 8) == null;
    }
    
+   public static void testTwoPath() {
+	   int itr[][] = { {8, 2, 1, 15}, 
+                     {13, 3, 1, 10},
+                     {140, 52, 5, 25},
+                     {1, 2, 3, 4}
+       };	   
+
+       Graph g = SeamCarving.tograph2(itr);
+   }
+   
    public static void main(String[] args) {	
-	   testEdge();
+	   testTwoPath();
    }
 
 }

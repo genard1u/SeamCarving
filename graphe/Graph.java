@@ -134,7 +134,7 @@ public class Graph {
 	   for (Edge e : next(u)) {
 		   if (!v[e.to]) {
 			    dfs(e.to, pile, v);
-		    }
+		   }
 	   }
 	   
 	   pile.push(u);
@@ -366,6 +366,16 @@ public class Graph {
 		   
 		   e.cost = Integer.MAX_VALUE;
 	   }
+   }
+   
+   public ArrayList<Integer>[] twopath(int s, int t) {
+	   ArrayList<Integer>[] ccm = (ArrayList<Integer>[]) new ArrayList[2];
+	   
+	   for (int c = 0; c < 2; c ++) {
+		   ccm[c] = new ArrayList<Integer>();
+	   }
+	   
+	   return ccm;
    }
    
 }
