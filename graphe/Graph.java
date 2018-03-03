@@ -506,6 +506,9 @@ public class Graph {
        /* il faut ensuite modifier le poids des arêtes du graphe */
        modifiePoids(d);
        
+       ccm[0].add(0,V-1);
+       ccm[0].add(V-2);
+       
        /* on inverse les arêtes du ccm */
        inverseCCM(ccm[0]);
        
@@ -513,8 +516,12 @@ public class Graph {
        p = dijkstra(s);
        
        /* on cherche les sommets en commun */
-       for (int i=0;i<p.length;i++) {
+       
+       for (int i=0;i<ccm[0].size();i++) {
     	   
+    	   for (int i=0;i<p.length;i++) {
+    		   
+    	   }
        }
        
        
