@@ -122,6 +122,29 @@ public class Graph {
 	   }						
    }
    
+   public void writeFile(String s, int[] d) {
+	   try {			 
+			 PrintWriter writer = new PrintWriter(s, "UTF-8");
+			 
+			 writer.println("digraph G{");
+			 
+			 for (int i=0;i<vertices();i++) {
+				 writer.println(i + " [label=\""+d[i]+"\"];"); 
+			 }
+			 
+			 for (Edge e : edges()) {
+			   writer.println(e.from + "->" + e.to + "[label=\"" + e.cost + "\"];");
+			 }
+			 
+			 writer.println("}");
+			 writer.close();
+	   }
+	   catch (IOException e) {
+		   System.err.println("Impossible d'écrire le fichier");
+		   System.exit(1);
+	   }						
+   }
+   
    /**
     * dfs pour le tri troplogique
     * @param u
