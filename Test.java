@@ -348,6 +348,16 @@ public class Test {
 		   ccm.add(emprunte);
        }
        
+       ccm.add(0,V-1);
+       ccm.add(V-2);
+       
+       for (int i=0;i<ccm.size();i++) {
+    	   /* c'est pas un tableau mais cet affichage est pratique */
+    	   System.out.println("ccm["+i+"] : "+ccm.get(i));
+       }
+       
+
+       
 	   g.inverseCCM(ccm);
        g.writeFile("inverseCCM.dot");
    }
@@ -402,8 +412,8 @@ public class Test {
    
    public static void main(String[] args) {	
 	   testInverseCCM();
-	   testBellman();
-	   testModifiePoids();
+	   //testBellman();
+	   //testModifiePoids();
    }
 
 }
