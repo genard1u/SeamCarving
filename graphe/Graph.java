@@ -447,28 +447,32 @@ public class Graph {
    }
    
    public void inverseCCM(ArrayList<Integer> ccm) {
-	   for (int i=ccm.size()-2;i>-1;i--) {
-		   int sommet1Arrete=ccm.get(i+1);
-		   int sommet2Arrete=ccm.get(i);
+	   assert ccm.size() > 1;
+	   
+	   for (int i = ccm.size() - 2; i > -1; i --) {
+		   int s1 = ccm.get(i+1);
+		   int s2 = ccm.get(i);
 		   
-		   ArrayList<Edge> sommet1arretes=adj[sommet1Arrete];
-		   ArrayList<Edge> sommet2arretes=adj[sommet2Arrete];
+		   ArrayList<Edge> adj1 = adj[s1];
+		   ArrayList<Edge> adj2 = adj[s2];
 		   
-		   for (int j=0;j<sommet1arretes.size();j++) {
-			   Edge e=sommet1arretes.get(j);
-			   if (e.from == sommet1Arrete && e.to == sommet2Arrete) {
-				   int temp=e.from;
-				   e.from=e.to;
-				   e.to=temp;
+		   for (int j = 0; j < adj1.size(); j ++) {
+			   Edge e = adj1.get(j);
+			   
+			   if (e.from == s1 && e.to == s2) {
+				   int temp = e.from;		   
+				   e.from = e.to;
+				   e.to = temp;
 			   }
 		   }
 		   
-		   for (int j=0;j<sommet2arretes.size();j++) {
-			   Edge e=sommet2arretes.get(j);
-			   if (e.from == sommet1Arrete && e.to == sommet2Arrete) {
-				   int temp=e.from;
-				   e.from=e.to;
-				   e.to=temp;
+		   for (int j = 0; j < adj2.size(); j ++) {
+			   Edge e = adj2.get(j);
+			   
+			   if (e.from == s1 && e.to == s2) {
+				   int temp = e.from;			   
+				   e.from = e.to;
+				   e.to = temp;
 			   }
 		   }
 	   }

@@ -338,9 +338,8 @@ public class Test {
 	   
 	   assert p != null;
 	   	   
-       int emprunte = puits;
-	   
        ArrayList<Integer> ccm = new ArrayList<Integer>();
+       int emprunte = puits;
        
        while (p[emprunte] != source) {
     	   assert p[emprunte] != - 1;
