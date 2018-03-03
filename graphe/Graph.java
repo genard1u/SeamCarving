@@ -465,6 +465,26 @@ public class Graph {
 	   }
    } 
    
+   public ArrayList<Integer> recupereSommetsCCM(int[] p, int s, int t) {
+	   ArrayList<Integer> ccm = new ArrayList<Integer>();
+       int emprunte = t;
+	   
+       /* ajout de puits */
+       ccm.add(t);
+       
+       while (p[emprunte] != s) {
+    	   assert p[emprunte] != - 1;
+    	   
+		   emprunte = p[emprunte];
+		   ccm.add(emprunte);
+       }
+       
+       /* ajout de la source */
+       ccm.add(s);
+       
+	   return ccm;
+   }
+   
    public ArrayList<Integer>[] twopath(int s, int t) {
 	   /* nos deux ccm qui seront à retirer */
 	   ArrayList<Integer>[] ccm = (ArrayList<Integer>[]) new ArrayList[2];
@@ -484,17 +504,8 @@ public class Graph {
 	   	   
        int emprunte = t;
 	   
-       /* ajout de puits */
-       ccm[0].add(t);
-       
-       while (p[emprunte] != s) {
-    	   assert p[emprunte] != - 1;
-		   emprunte = p[emprunte];
-		   ccm[0].add(emprunte);
-       }
-       
-       /* ajout de la source */
-       ccm[0].add(s);
+       /* récupére les sommets du ccm de s à t obtenus grâce à bellman */
+       ccm[0] = recupereSommetsCCM(p, s, t);
        
        /* il faut ensuite modifier le poids des arêtes du graphe */
        modifiePoids(d);
@@ -505,7 +516,10 @@ public class Graph {
        /* on cherche un second ccm dans le nouveau graphe */
        p = dijkstra(s);
        
-       /* on cherche les sommets en commun */
+       /* récupére les sommets du ccm de s à t obtenus grâce à dijkstra */
+       ccm[1] = recupereSommetsCCM(p, s ,t);
+       
+       /* on cherche les sommets en commun 
        ArrayList<Integer> aRajouter=new ArrayList<Integer>();
        for (int i=0;i<ccm[0].size();i++) {
     	   boolean enCommun=true;
@@ -516,12 +530,12 @@ public class Graph {
     			  aRajouter.add(p[j]);
     		  }
     	   }  
-       }
+       } */
        
-       /* on rajoute tous les sommets sur une ArrayList */
+       /* on rajoute tous les sommets sur une ArrayList 
        for (int i=0;i<aRajouter.size();i++) {
     	   ccm[0].add(aRajouter.get(i));
-       }
+       } */
        
        //Pour l'instant ils sont enlevés dans reduction2
        /* on enlève le sommet et le puit */
