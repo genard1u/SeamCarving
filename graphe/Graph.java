@@ -449,30 +449,17 @@ public class Graph {
    public void inverseCCM(ArrayList<Integer> ccm) {
 	   assert ccm.size() > 1;
 	   
+	   /* on commence depuis le puits en descendant vers la source */
 	   for (int i = ccm.size() - 2; i > -1; i --) {
-		   int s1 = ccm.get(i+1);
-		   int s2 = ccm.get(i);
+		   int to = ccm.get(i+1);
+		   int from = ccm.get(i);
 		   
-		   ArrayList<Edge> adj1 = adj[s1];
-		   ArrayList<Edge> adj2 = adj[s2];
-		   
-		   for (int j = 0; j < adj1.size(); j ++) {
-			   Edge e = adj1.get(j);
-			   
-			   if (e.from == s1 && e.to == s2) {
-				   int temp = e.from;		   
+		   for (Edge e : adj(from)) {
+			   if (e.to == to) {
+				   int tmp = e.from;	
+				   
 				   e.from = e.to;
-				   e.to = temp;
-			   }
-		   }
-		   
-		   for (int j = 0; j < adj2.size(); j ++) {
-			   Edge e = adj2.get(j);
-			   
-			   if (e.from == s1 && e.to == s2) {
-				   int temp = e.from;			   
-				   e.from = e.to;
-				   e.to = temp;
+				   e.to = tmp;
 			   }
 		   }
 	   }
@@ -497,17 +484,20 @@ public class Graph {
 	   	   
        int emprunte = t;
 	   
+       /* ajout de puits */
+       ccm[0].add(t);
+       
        while (p[emprunte] != s) {
     	   assert p[emprunte] != - 1;
 		   emprunte = p[emprunte];
 		   ccm[0].add(emprunte);
        }
        
+       /* ajout de la source */
+       ccm[0].add(s);
+       
        /* il faut ensuite modifier le poids des arêtes du graphe */
        modifiePoids(d);
-       
-       ccm[0].add(0,V-1);
-       ccm[0].add(V-2);	
        
        /* on inverse les arêtes du ccm */
        inverseCCM(ccm[0]);
