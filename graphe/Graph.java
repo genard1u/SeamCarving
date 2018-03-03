@@ -242,56 +242,6 @@ public class Graph {
    }
    
    /**
-    * algorithme de Bellman-Ford
-    * les sommets sont traités dans l'ordre du tri topologique
-    * @param sommet pour lequel on veut les CCM
-    * @return parents, null si présence d'un cycle de coût négatif
-    */
-   public int[] bellmanCCM(int s) {
-	   assert s >= 0;
-	   assert s < vertices();
-	   
-	   int[] d = new int[vertices()];
-	   int[] p = new int[vertices()];
-	   
-	   for (int i = 0; i < vertices(); i++) {
-		   d[i] = Integer.MAX_VALUE;
-		   p[i] = -1;
-	   }
-
-	   d[s] = 0;
-	   
-	   int modifie = 0;
-	   int i = 0;
-	   
-	   while (i < vertices() && modifie != -1) {
-		   modifie = -1;
-		   
-		   for (Edge e : edges(topo())) {
-			   long x = d[e.to];
-			   long y = ((long) d[e.from]) + ((long) e.cost);
-			   
-			   if (x > y) {
-				   d[e.to] = d[e.from] + e.cost;
-				   p[e.to] = e.from;
-				   modifie = e.from;
-			   }
-		   }
-		   
-		   i ++;
-	   }
-	   
-	   if (modifie != -1) {
-		   /* cycle négatif */
-		   return null;
-	   }
-	   else {
-		   /* d s'est stabilisé */
-		   return d;
-	   }
-   }
-   
-   /**
     * @param s
     * @param t
     * @return sommets du chemin de coût minimal de s à t dans l'ordre inverse (s et t exclus)
@@ -528,20 +478,19 @@ public class Graph {
 	   /* nos deux ccm qui seront à retirer */
 	   ArrayList<Integer>[] ccm = (ArrayList<Integer>[]) new ArrayList[2];
 	   
+	   for (int c = 0; c < 2; c ++) {
+		   ccm[c] = new ArrayList<Integer>();
+	   }
+	   
 	   /* contient les ccm entre le sommet de départ et les autres */
 	   int[] d = new int[vertices()]; 
-	   
 	   
 	   /* contient les sommets d'un premier ccm entre s et t */
 	   /* remplit aussi d avec les ccm pour chaque sommet */
 	   int[] p = bellman(s, d);
 	   
 	   assert p != null;
-	   
-	   for (int c = 0; c < 2; c ++) {
-		   ccm[c] = new ArrayList<Integer>();
-	   }
-	   
+	   	   
        int emprunte = t;
 	   
        while (p[emprunte] != s) {

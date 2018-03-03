@@ -238,7 +238,7 @@ public class Test {
 	   System.out.println();
    }
    
-   public static void testBellman() {
+   /* public static void testBellman() {
 	   int l = 4;
 	   int c = 4;
 	   int source = l * c;
@@ -274,7 +274,7 @@ public class Test {
 	   ArrayList<Integer> chemin = g.dijkstra(source, source + 1);
 	   
 	   afficherChemin(chemin);
-   }
+   } */
    
    public static void testPPM(String source, String dest) {
 	   SeamCarving.couleur(source, dest, 50);
@@ -286,7 +286,7 @@ public class Test {
 	   SeamCarving.zone(source, dest, 320, true, zone);
    }
    
-   public static void testTograph2() {
+   public static void testToGraph2() {
 	   int itr[][] = { {8, 2, 1, 15}, 
                        {13, 3, 1, 10},
                        {140, 52, 5, 25},
@@ -295,7 +295,7 @@ public class Test {
 	   
        Graph g = SeamCarving.tograph2(itr);
 	   
-	   g.writeFile("test.dot");
+	   g.writeFile("toGraph2.dot");
    }
    
    public static void afficherChemin(ArrayList<Integer> chemin) {
@@ -352,53 +352,50 @@ public class Test {
        };	   
 
        Graph g = SeamCarving.tograph2(itr);
-       int d[]=g.bellmanCCM(24);
+       int[] d = new int[g.vertices()]; 
        
-       
-       g.writeFile("twopath.dot");
+       g.bellman(24, d);
+       g.writeFile("twoPath.dot");
    }
    
-   public static void testBellmanCCM() {
+   public static void testBellman() {
 	   int itr[][] = { {8, 2, 1, 15}, 
-               {13, 3, 1, 10},
-               {140, 52, 5, 25},
-               {1, 2, 3, 4}
+                       {13, 3, 1, 10},
+                       {140, 52, 5, 25},
+                       {1, 2, 3, 4}
 		};	   
 		
 		Graph g = SeamCarving.tograph2(itr);
-		int d[]=g.bellmanCCM(24);
+		int[] d = new int[g.vertices()]; 
 		
-		for (int i=0;i<d.length;i++) {
-			System.out.println("d["+i+"] : "+d[i]);
+		g.bellman(24, d);
+		
+		for (int i = 0; i < d.length; i ++) {
+			System.out.println("d[" + i + "] : " + d[i]);
 		}
 		
-		g.writeFile("bellman.dot",d);
+		g.writeFile("bellman.dot", d);
    }
    
-   public static void testmodifiePoids() {
+   public static void testModifiePoids() {
 	   int itr[][] = { {8, 2, 1, 15}, 
-               {13, 3, 1, 10},
-               {140, 52, 5, 25},
-               {1, 2, 3, 4}
+                       {13, 3, 1, 10},
+                       {140, 52, 5, 25},
+                       {1, 2, 3, 4}
 		};	   
 		
 		Graph g = SeamCarving.tograph2(itr);
-		int d[]=g.bellmanCCM(24);
+		int[] d = new int[g.vertices()]; 
+		
+		g.bellman(24, d);
 		g.modifiePoids(d);
-		
-		/*for (int i=0;i<d.length;i++) {
-			System.out.println("d["+i+"] : "+d[i]);
-		}*/
-		
-		g.writeFile("bellman_poids.dot",d);
+		g.writeFile("bellmanPoids.dot", d);
    }
    
-   
-   
-   
    public static void main(String[] args) {	
-	   testBellmanCCM();
-	   testmodifiePoids();
+	   testInverseCCM();
+	   testBellman();
+	   testModifiePoids();
    }
 
 }
