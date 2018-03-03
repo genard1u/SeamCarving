@@ -418,7 +418,10 @@ public class Graph {
    }
    
    public void modifiePoids(int[] d) {
-	   
+	   for (Edge e : edges()) {
+		   int modifcost=d[e.from]-d[e.to];
+		   e.cost=e.cost+modifcost;
+	   }
    }
    
    public void inverseCCM(ArrayList<Integer> ccm) {
