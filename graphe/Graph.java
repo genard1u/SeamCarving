@@ -501,8 +501,6 @@ public class Graph {
 	   int[] p = bellman(s, d);
 	   
 	   assert p != null;
-	   	   
-       int emprunte = t;
 	   
        /* récupére les sommets du ccm de s à t obtenus grâce à bellman */
        ccm[0] = recupereSommetsCCM(p, s, t);
@@ -513,11 +511,8 @@ public class Graph {
        /* on inverse les arêtes du ccm */
        inverseCCM(ccm[0]);
        
-       /* on cherche un second ccm dans le nouveau graphe */
-       p = dijkstra(s);
-       
        /* récupére les sommets du ccm de s à t obtenus grâce à dijkstra */
-       ccm[1] = recupereSommetsCCM(p, s ,t);
+       ccm[1] = recupereSommetsCCM(dijkstra(s), s ,t);
        
        /* on cherche les sommets en commun 
        ArrayList<Integer> aRajouter=new ArrayList<Integer>();
