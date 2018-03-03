@@ -497,8 +497,8 @@ public class Graph {
    }
    
    public void inverseCCM(ArrayList<Integer> ccm) {
-	   for (int i=1;i<ccm.size();i++) {
-		   int sommet1Arrete=ccm.get(i-1);
+	   for (int i=ccm.size()-2;i>-1;i--) {
+		   int sommet1Arrete=ccm.get(i+1);
 		   int sommet2Arrete=ccm.get(i);
 		   
 		   ArrayList<Edge> sommet1arretes=adj[sommet1Arrete];
@@ -559,7 +559,11 @@ public class Graph {
        /* on cherche un second ccm dans le nouveau graphe */
        p = dijkstra(s);
        
-       /* on cherche les arêtes jaunes */
+       /* on cherche les sommets en commun */
+       for (int i=0;i<p.length;i++) {
+    	   
+       }
+       
        
 	   return ccm;
    }
