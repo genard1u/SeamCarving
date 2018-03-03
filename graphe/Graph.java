@@ -417,14 +417,25 @@ public class Graph {
 	   }
    }
    
+   public void modifiePoids(int[] d) {
+	   
+   }
+   
+   public void inverseCCM(ArrayList<Integer> ccm) {
+	   
+   }
+   
    public ArrayList<Integer>[] twopath(int s, int t) {
+	   /* nos deux ccm qui seront à retirer */
 	   ArrayList<Integer>[] ccm = (ArrayList<Integer>[]) new ArrayList[2];
 	   
 	   /* contient les ccm entre le sommet de départ et les autres */
 	   int[] d = new int[vertices()]; 
 	   
-	   /* contient les sommets du ccm entre s et t */
+	   /* contient les sommets d'un premier ccm entre s et t */
 	   int[] p = bellman(s, d);
+	   
+	   assert p != null;
 	   
 	   for (int c = 0; c < 2; c ++) {
 		   ccm[c] = new ArrayList<Integer>();
@@ -439,6 +450,13 @@ public class Graph {
        }
        
        /* il faut ensuite modifier le poids des arêtes du graphe */
+       modifiePoids(d);
+       
+       /* on inverse les arêtes du ccm */
+       inverseCCM(ccm[0]);
+       
+       /* on cherche un second ccm dans le nouveau graphe */
+       p = dijkstra(s);
        
 	   return ccm;
    }
