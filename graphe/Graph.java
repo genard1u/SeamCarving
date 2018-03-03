@@ -442,8 +442,7 @@ public class Graph {
    
    public void modifiePoids(int[] d) {
 	   for (Edge e : edges()) {
-		   int modifcost=d[e.from]-d[e.to];
-		   e.cost=e.cost+modifcost;
+		   e.cost += d[e.from] - d[e.to];
 	   }
    }
    
@@ -473,9 +472,7 @@ public class Graph {
 			   }
 		   }
 	   }
-   }
-   
-   
+   } 
    
    public ArrayList<Integer>[] twopath(int s, int t) {
 	   /* nos deux ccm qui seront à retirer */
@@ -509,6 +506,8 @@ public class Graph {
        
        /* on cherche un second ccm dans le nouveau graphe */
        p = dijkstra(s);
+       
+       /* on cherche les arêtes jaunes */
        
 	   return ccm;
    }
