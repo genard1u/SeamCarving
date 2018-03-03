@@ -500,11 +500,6 @@ public class Graph {
 	   /* remplit aussi d avec les ccm pour chaque sommet */
 	   int[] p = bellman(s, d);
 	   
-	   //Problème dans Bellman
-	   for (int i=0;i<p.length;i++) {
-		   System.out.println("p["+i+"] : "+p[i]);
-	   }
-	   
 	   assert p != null;
 	   	   
        int emprunte = t;
@@ -531,7 +526,7 @@ public class Graph {
     	   for (int j=0;j<p.length;j++) {
     		  if (p[j] == ccm[0].get(i)) {
     			  break;
-    	/* si le sommet n'a pas été trouvé on le rajoute */
+    	/* si le sommet n'a pas été trouvé on le rajoute 
     		  } else if (j == p.length-1) {
     			  aRajouter.add(p[j]);
     		  }
