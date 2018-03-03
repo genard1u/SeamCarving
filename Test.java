@@ -375,9 +375,30 @@ public class Test {
 		g.writeFile("bellman.dot",d);
    }
    
+   public static void testmodifiePoids() {
+	   int itr[][] = { {8, 2, 1, 15}, 
+               {13, 3, 1, 10},
+               {140, 52, 5, 25},
+               {1, 2, 3, 4}
+		};	   
+		
+		Graph g = SeamCarving.tograph2(itr);
+		int d[]=g.bellmanCCM(24);
+		g.modifiePoids(d);
+		
+		/*for (int i=0;i<d.length;i++) {
+			System.out.println("d["+i+"] : "+d[i]);
+		}*/
+		
+		g.writeFile("bellman_poids.dot",d);
+   }
+   
+   
+   
    
    public static void main(String[] args) {	
 	   testBellmanCCM();
+	   testmodifiePoids();
    }
 
 }
