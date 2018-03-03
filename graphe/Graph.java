@@ -485,13 +485,24 @@ public class Graph {
 	   return ccm;
    }
    
-   public ArrayList<Integer>[] twopath(int s, int t) {
-	   /* nos deux ccm qui seront à retirer */
-	   ArrayList<Integer>[] ccm = (ArrayList<Integer>[]) new ArrayList[2];
+   public boolean estPresentSommet(ArrayList<Integer> chemin, int sommet) {
+	   boolean trouve = false;
+	   int i = 0;
 	   
-	   for (int c = 0; c < 2; c ++) {
-		   ccm[c] = new ArrayList<Integer>();
+	   while (!trouve && i < chemin.size()) {
+		   if (chemin.get(i) == sommet) {
+			   trouve = true;
+		   }
+		   
+		   i ++;
 	   }
+	   
+	   return trouve;
+   }
+   
+   public ArrayList<Integer> twopath(int s, int t) {
+	   ArrayList<Integer> premier = new ArrayList<Integer>();
+	   ArrayList<Integer> deuxieme = new ArrayList<Integer>();
 	   
 	   /* contient les ccm entre le sommet de départ et les autres */
 	   int[] d = new int[vertices()]; 
@@ -503,41 +514,41 @@ public class Graph {
 	   assert p != null;
 	   
        /* récupére les sommets du ccm de s à t obtenus grâce à bellman */
-       ccm[0] = recupereSommetsCCM(p, s, t);
+       premier = recupereSommetsCCM(p, s, t);
        
        /* il faut ensuite modifier le poids des arêtes du graphe */
        modifiePoids(d);
        
        /* on inverse les arêtes du ccm */
-       inverseCCM(ccm[0]);
+       inverseCCM(premier);
        
        /* récupére les sommets du ccm de s à t obtenus grâce à dijkstra */
-       ccm[1] = recupereSommetsCCM(dijkstra(s), s ,t);
+       deuxieme = recupereSommetsCCM(dijkstra(s), s ,t);
        
-       /* on cherche les sommets en commun 
-       ArrayList<Integer> aRajouter=new ArrayList<Integer>();
-       for (int i=0;i<ccm[0].size();i++) {
-    	   boolean enCommun=true;
-    	   for (int j=0;j<p.length;j++) {
-    		  if (p[j] == ccm[0].get(i)) {
-    			  break;
-    	/* si le sommet n'a pas été trouvé on le rajoute 
-    		  } else if (j == p.length-1) {
-    			  aRajouter.add(p[j]);
-    		  }
-    	   }  
-       } */
+       /* on inverse à nouveau */
+       inverseCCM(premier);
        
-       /* on rajoute tous les sommets sur une ArrayList 
-       for (int i=0;i<aRajouter.size();i++) {
-    	   ccm[0].add(aRajouter.get(i));
-       } */
+       /* liste de tous les sommets qu'il y a dans les ccm (moins les arêtes jaunes) */
+       ArrayList<Integer> ccm = new ArrayList<Integer>();
        
-       //Pour l'instant ils sont enlevés dans reduction2
-       /* on enlève le sommet et le puit */
-       /*for (int i=0;i<ccm[0].size();i++) {
+       while (!premier.isEmpty() && !deuxieme.isEmpty()) {
+    	   int sommet = 0;
     	   
-       }*/
+    	   if (!premier.isEmpty()) {
+    		   sommet = premier.get(0);
+    		   
+    		   if (!estPresentSommet(deuxieme, sommet)) {
+        		   ccm.add(sommet);
+        	   }
+    		   
+    		   premier.remove(0);
+    	   }
+    	   else {
+    		   sommet = deuxieme.get(0);
+    		   ccm.add(sommet);
+    		   deuxieme.remove(0);
+    	   }
+       }
        
 	   return ccm;
    }
