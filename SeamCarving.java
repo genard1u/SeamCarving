@@ -542,8 +542,9 @@ public class SeamCarving {
 	    
 	    for (int i = 0; i < chemin.size(); i ++) {
 		    int sommet = chemin.get(i);
-		   
-	        img[sommet / largeur][sommet % largeur] = -1;
+		    if ((sommet != g.vertices()-1) &&(sommet != g.vertices()-2)) {
+		    	img[sommet / largeur][sommet % largeur] = -1;		    	
+		    }
 	    }
 	   
 	    int[][] img2 = new int[hauteur][largeur - 2];

@@ -533,10 +533,11 @@ public class Graph {
     	   ccm[0].add(aRajouter.get(i));
        }
        
+       //Pour l'instant ils sont enlevés dans reduction2
        /* on enlève le sommet et le puit */
-       for (int i=0;i<ccm[0].size();i++) {
+       /*for (int i=0;i<ccm[0].size();i++) {
     	   
-       }
+       }*/
        
 	   return ccm;
    }

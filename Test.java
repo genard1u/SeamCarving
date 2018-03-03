@@ -355,8 +355,6 @@ public class Test {
     	   System.out.println("ccm["+i+"] : "+ccm.get(i));
        }
        
-
-       
 	   g.inverseCCM(ccm);
        g.writeFile("inverseCCM.dot");
    }
@@ -409,8 +407,19 @@ public class Test {
 		g.writeFile("bellmanPoids.dot", d);
    }
    
+   public static void testReduction2() {
+	   int[][] img = Lecture.readpgm("test.pgm");
+	    int largeur = img[0].length;
+	   
+	    img = SeamCarving.reduction2(img);
+	   
+	    Ecriture.writepgm(img, "test_O.pgm");
+	   
+   }
+   
    public static void main(String[] args) {	
-	   testInverseCCM();
+	   //testInverseCCM();
+	   testReduction2();
 	   //testBellman();
 	   //testModifiePoids();
    }
