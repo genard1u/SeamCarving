@@ -328,18 +328,26 @@ public class Test {
                        {140, 52, 5, 25},
                        {1, 2, 3, 4}
 	   };	   
-
-	   ArrayList<Integer> ccm = new ArrayList<Integer>();
-	   
-	   ccm.add(24);
-	   ccm.add(2);
-	   ccm.add(6);
-	   ccm.add(10);
-	   ccm.add(14);
-	   ccm.add(18);
 	   
 	   Graph g = SeamCarving.tograph2(itr);    
+	   int V = g.vertices();
+	   int source = V - 2;
+	   int puits = V - 1;
+	   int[] d = new int[V]; 
+       int[] p = g.bellman(source, d);
 	   
+	   assert p != null;
+	   	   
+       int emprunte = puits;
+	   
+       ArrayList<Integer> ccm = new ArrayList<Integer>();
+       
+       while (p[emprunte] != source) {
+    	   assert p[emprunte] != - 1;
+		   emprunte = p[emprunte];
+		   ccm.add(emprunte);
+       }
+       
 	   g.inverseCCM(ccm);
        g.writeFile("inverseCCM.dot");
    }
