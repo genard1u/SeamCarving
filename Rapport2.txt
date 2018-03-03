@@ -9,6 +9,11 @@ Les images de ce second rendu sont dans le dossier image/groupe/rendu2 (sur le d
 Toutes les améliorations ont été réalisées.
 
 Répartition du travail:
-A COMPLETER
+Q1 et Q2 ensemble, il y a un bug dans twopath
+
+Pierre:
+Augmentation (ça marche voir image surf augmentée)
+Quelques améliorations sur la zone rectangulaire à garder ou à supprimer.
+
 
 
