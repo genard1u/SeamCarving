@@ -322,6 +322,24 @@ public class Test {
        assert g.edge(0, 8) == null;
    }
    
+   public static void testInverseCCM() {
+	   int itr[][] = { {8, 2, 1, 15}, 
+               {13, 3, 1, 10},
+               {140, 52, 5, 25},
+               {1, 2, 3, 4}
+	   };	   
+
+	   ArrayList<Integer> ccm=new ArrayList<Integer>();
+	   ccm.add(24);ccm.add(2);ccm.add(6);ccm.add(10);ccm.add(14);ccm.add(18);
+	   Graph g = SeamCarving.tograph2(itr);       //g.inverseCCM(ccm);
+	   g.inverseCCM(ccm);
+       g.writeFile("testInverse.dot");
+       
+       /*assert g.edge(0, 4) != null;
+       assert g.edge(4, 8) != null;
+       assert g.edge(0, 8) == null;*/
+   }
+   
    public static void testTwoPath() {
 	   int itr[][] = { {8, 2, 1, 15}, 
                      {13, 3, 1, 10},
@@ -330,10 +348,12 @@ public class Test {
        };	   
 
        Graph g = SeamCarving.tograph2(itr);
+       g.writeFile("testNormal.dot");
    }
    
    public static void main(String[] args) {	
 	   testTwoPath();
+	   testInverseCCM();
    }
 
 }
