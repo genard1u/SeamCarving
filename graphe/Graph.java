@@ -286,9 +286,8 @@ public class Graph {
 	   int[] p = dijkstra(s);
        int emprunte = t;
 	   
-       /* pour l'instant, on suppose qu'il y a bel et bien un chemin de s à t
-          on suppose que le graphe est un DAG */
        while (p[emprunte] != s) {
+    	   assert p[emprunte] != - 1;
 		   emprunte = p[emprunte];
 		   chemin.add(emprunte);
        }
@@ -368,13 +367,79 @@ public class Graph {
 	   }
    }
    
+   /**
+    * algorithme de Bellman
+    * @param s sommet de depart pour l'obtention des ccm
+    * @param d tableau des ccm 
+    * @return parents, null si présence d'un cycle de coût négatif
+    */
+   public int[] bellman(int s, int[] d) {
+	   assert s >= 0;
+	   assert s < vertices();
+	   assert d.length == vertices();
+	   
+	   int[] p = new int[vertices()];
+	   
+	   for (int i = 0; i < vertices(); i++) {
+		   d[i] = Integer.MAX_VALUE;
+		   p[i] = -1;
+	   }
+
+	   d[s] = 0;
+	   
+	   int modifie = 0;
+	   int i = 0;
+	   
+	   while (i < vertices() && modifie != -1) {
+		   modifie = -1;
+		   
+		   for (Edge e : edges(topo())) {
+			   long x = d[e.to];
+			   long y = ((long) d[e.from]) + ((long) e.cost);
+			   
+			   if (x > y) {
+				   d[e.to] = d[e.from] + e.cost;
+				   p[e.to] = e.from;
+				   modifie = e.from;
+			   }
+		   }
+		   
+		   i ++;
+	   }
+	   
+	   if (modifie != -1) {
+		   /* cycle négatif */
+		   return null;
+	   }
+	   else {
+		   /* d s'est stabilisé */
+		   return p;
+	   }
+   }
+   
    public ArrayList<Integer>[] twopath(int s, int t) {
 	   ArrayList<Integer>[] ccm = (ArrayList<Integer>[]) new ArrayList[2];
+	   
+	   /* contient les ccm entre le sommet de départ et les autres */
+	   int[] d = new int[vertices()]; 
+	   
+	   /* contient les sommets du ccm entre s et t */
+	   int[] p = bellman(s, d);
 	   
 	   for (int c = 0; c < 2; c ++) {
 		   ccm[c] = new ArrayList<Integer>();
 	   }
 	   
+       int emprunte = t;
+	   
+       while (p[emprunte] != s) {
+    	   assert p[emprunte] != - 1;
+		   emprunte = p[emprunte];
+		   ccm[0].add(emprunte);
+       }
+       
+       /* il faut ensuite modifier le poids des arêtes du graphe */
+       
 	   return ccm;
    }
    
