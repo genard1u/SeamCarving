@@ -473,8 +473,7 @@ public class Graph {
        ccm.add(t);
        
        while (p[emprunte] != s) {
-    	   assert p[emprunte] != - 1;
-    	   
+    	   assert p[emprunte] != - 1;	   
     	   ccm.add(p[emprunte]);
 		   emprunte = p[emprunte];
        }
