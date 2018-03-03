@@ -507,7 +507,7 @@ public class Graph {
        modifiePoids(d);
        
        ccm[0].add(0,V-1);
-       ccm[0].add(V-2);
+       ccm[0].add(V-2);	
        
        /* on inverse les arêtes du ccm */
        inverseCCM(ccm[0]);
@@ -516,14 +516,27 @@ public class Graph {
        p = dijkstra(s);
        
        /* on cherche les sommets en commun */
-       
+       ArrayList<Integer> aRajouter=new ArrayList<Integer>();
        for (int i=0;i<ccm[0].size();i++) {
-    	   
-    	   for (int i=0;i<p.length;i++) {
-    		   
-    	   }
+    	   boolean enCommun=true;
+    	   for (int j=0;j<p.length;j++) {
+    		  if (p[j] == ccm[0].get(i)) {
+    			  break;
+    		  } else if (j == p.length-1) {
+    			  aRajouter.add(p[j]);
+    		  }
+    	   }  
        }
        
+       /* on rajoute tous les sommets sur une ArrayList */
+       for (int i=0;i<aRajouter.size();i++) {
+    	   ccm[0].add(aRajouter.get(i));
+       }
+       
+       /* on enlève le sommet et le puit */
+       for (int i=0;i<ccm[0].size();i++) {
+    	   
+       }
        
 	   return ccm;
    }
