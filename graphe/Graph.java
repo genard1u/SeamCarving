@@ -531,7 +531,9 @@ public class Graph {
 	   /* contient les ccm entre le sommet de départ et les autres */
 	   int[] d = new int[vertices()]; 
 	   
+	   
 	   /* contient les sommets d'un premier ccm entre s et t */
+	   /* remplit aussi d avec les ccm pour chaque sommet */
 	   int[] p = bellman(s, d);
 	   
 	   assert p != null;
