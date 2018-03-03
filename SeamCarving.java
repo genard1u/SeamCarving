@@ -526,6 +526,43 @@ public class SeamCarving {
     
     /**
      * @param img
+     * @return img réduite de 2 colonnes
+     */
+    public static int[][] reduction2(int[][] img) {
+	    int hauteur = img.length;
+	    int largeur = img[0].length;
+	    	    
+	    assert hauteur > HAUTEUR_MINI;
+	    assert largeur > LARGEUR_MINI;
+	  
+	    int source = largeur * hauteur;
+	    int puits = source + 1;	       	    	   
+	    Graph g = tograph2(img);
+	    ArrayList<Integer> chemin = g.twopath(source, puits)[0];
+	    
+	    for (int i = 0; i < chemin.size(); i ++) {
+		    int sommet = chemin.get(i);
+		   
+	        img[sommet / largeur][sommet % largeur] = -1;
+	    }
+	   
+	    int[][] img2 = new int[hauteur][largeur - 2];
+	    int pixel = 0;
+	   
+	    for (int i = 0; i < hauteur; i ++) {
+	        for (int j = 0; j < largeur; j ++) {
+	    	    if (img[i][j] != -1) {	    		    
+	    		    img2[pixel / (largeur - 2)][pixel % (largeur - 2)] = img[i][j];
+	    		    pixel ++;
+	    	    }	
+	        }
+	    }
+	   
+	    return img2;
+    }
+    
+    /**
+     * @param img
      * @return img réduite de 1 ligne
      */
     public static int[][] reductionLigne(int[][] img) {
